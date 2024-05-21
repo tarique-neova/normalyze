@@ -1,0 +1,8 @@
+{
+	"login": "/login",
+	"authorization-systems": "/organization/authorization-systems",
+	"recommendation-details": "/compliance/data/details/recommendation",
+	"compliance-details": "/compliance/data/details",
+	"manifest": "/compliance/manifest",
+	"data-collector": "/organization/data-collector/collect"
+}

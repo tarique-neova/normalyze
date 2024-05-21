@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Ensure that security contact 'Phone number' is set",
+    "description": "Provide a security contact phone number.",
+    "status": false,
+    "testCaseId": "SECURITY_POLICIES_017"
+  },
+  {
+    "name": "Ensure that 'Security contact emails' is set",
+    "description": "Provide a security contact email address.",
+    "status": false,
+    "testCaseId": "SECURITY_POLICIES_016"
+  },
+  {
+    "name": "Ensure that 'Send email notification for high severity alerts' is set to 'On'",
+    "description": "Enable emailing security alerts to the security contact.",
+    "status": false,
+    "testCaseId": "SECURITY_POLICIES_018"
+  },
+  {
+    "name": "Ensure that 'Send email also to subscription owners' is set to 'On'",
+    "description": "Enable security alert emails to subscription owners.",
+    "status": false,
+    "testCaseId": "SECURITY_POLICIES_019"
+  },
+  {
+    "name": "Ensure FTP deployments are disabled",
+    "description": "By default, Azure Functions, Web and API Services can be deployed over FTP. If FTP is required for an essential deployment workflow, FTPS should be required for FTP login for all App Service Apps and Functions.",
+    "status": true,
+    "testCaseId": "APP_SERVICE_011"
+  },
+  {
+    "name": "Ensure that Vulnerability Assessment (VA) is enabled on a SQL server by setting a Storage Account",
+    "description": "Enable Vulnerability Assessment (VA) service scans for critical SQL servers and corresponding SQL databases.",
+    "status": true,
+    "testCaseId": "DATABASE_SERVICES_022"
+  },
+  {
+    "name": "Ensure that VA setting Periodic Recurring Scans is enabled on a SQL server",
+    "description": "Enable Vulnerability Assessment (VA) Periodic recurring scans for critical SQL servers and corresponding SQL databases.",
+    "status": true,
+    "testCaseId": "DATABASE_SERVICES_023"
+  },
+  {
+    "name": "Ensure that VA setting Send scan reports to is configured for a SQL server",
+    "description": "Configure 'Send scan reports to' with email ids of concerned data owners/stakeholders for a critical SQL servers.",
+    "status": true,
+    "testCaseId": "DATABASE_SERVICES_024"
+  },
+  {
+    "name": "Ensure that VA setting 'Also send email notifications to admins and subscription owners' is set for a SQL server",
+    "description": "Enable Vulnerability Assessment (VA) setting 'Also send email notifications to admins and subscription owners'.",
+    "status": true,
+    "testCaseId": "DATABASE_SERVICES_025"
+  },
+  {
+    "name": "Ensure 'Allow access to Azure services' for PostgreSQL Database Server is disabled",
+    "description": "Disable access from Azure services to PostgreSQL Database Server",
+    "status": true,
+    "testCaseId": "DATABASE_SERVICES_026"
+  },
+  {
+    "name": "Ensure that Azure Defender is set to On for Servers",
+    "description": "Turning on Azure Defender enables threat detection for Server, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center.",
+    "status": true,
+    "testCaseId": "SECURITY_CENTER_001"
+  },
+  {
+    "name": "Ensure that Azure Defender is set to On for App Service",
+    "description": "Turning on Azure Defender enables threat detection for App Service, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center.",
+    "status": true,
+    "testCaseId": "SECURITY_CENTER_002"
+  },
+  {
+    "name": "Ensure that Azure Defender is set to On for Azure SQL database servers",
+    "description": "Turning on Azure Defender enables threat detection for Azure SQL database servers, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center.",
+    "status": true,
+    "testCaseId": "SECURITY_CENTER_003"
+  },
+  {
+    "name": "Ensure that Azure Defender is set to On for SQL servers on machines",
+    "description": "Turning on Azure Defender enables threat detection for SQL servers on machines, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center.",
+    "status": true,
+    "testCaseId": "SECURITY_CENTER_004"
+  },
+  {
+    "name": "Ensure that Azure Defender is set to On for Storage",
+    "description": "Turning on Azure Defender enables threat detection for Storage, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center.",
+    "status": true,
+    "testCaseId": "SECURITY_CENTER_005"
+  },
+  {
+    "name": "Ensure that Azure Defender is set to On for Kubernetes",
+    "description": "Turning on Azure Defender enables threat detection for Kubernetes, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center.",
+    "status": true,
+    "testCaseId": "SECURITY_CENTER_006"
+  },
+  {
+    "name": "Ensure that Azure Defender is set to On for Container Registries",
+    "description": "Turning on Azure Defender enables threat detection for Container Registries, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center.",
+    "status": true,
+    "testCaseId": "SECURITY_CENTER_007"
+  },
+  {
+    "name": "Ensure that Azure Defender is set to On for Key Vault",
+    "description": "Turning on Azure Defender enables threat detection for Key Vault, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center.",
+    "status": true,
+    "testCaseId": "SECURITY_CENTER_008"
+  },
+  {
+    "name": "Ensure that Windows Defender ATP (WDATP) integration with Security Center is selected",
+    "description": "This setting enables Windows Defender ATP (WDATP) integration with Security Center.",
+    "status": true,
+    "testCaseId": "SECURITY_CENTER_009"
+  },
+  {
+    "name": "Ensure that Microsoft Cloud App Security (MCAS) integration with Security Center is selected",
+		"description": "This setting enables Microsoft Cloud App Security (MCAS) integration with Security Center.",
+		"status": true,
+		"testCaseId": "SECURITY_CENTER_010"
+  },
+  {
+    "name": "Ensure 'Additional email addresses' is configured with a security contact email",
+		"description": "Security Center emails the subscription owners whenever a high-severity alert is triggered for their subscription. You should provide a security contact email address as an additional email address.",
+		"status": true,
+		"testCaseId": "SECURITY_CENTER_013"
+  },
+  {
+    "name": "Ensure that 'Notify about alerts with the following severity' is set to 'High'",
+		"description": "Enables emailing security alerts to the subscription owner or other designated security contact.",
+		"status": true,
+		"testCaseId": "SECURITY_CENTER_014"
+  },
+  {
+    "name": "Ensure that 'All users with the following roles' is set to 'Owner'",
+		"description": "Enable security alert emails to subscription owners.",
+		"status": true,
+		"testCaseId": "SECURITY_CENTER_015"
+  },
+  {
+    "name": "Ensure that a 'Diagnostics Setting' exists ",
+		"description": "Enable Diagnostic settings for exporting activity logs. Diagnostic setting are available for each individual resources within a subscription. Settings should be configured for all appropriate resources for your environment.",
+		"status": true,
+		"testCaseId": "DIAGNOSTICS_SETTINGS_001"
+  },
+  {
+    "name": "Ensure Diagnostic Setting captures appropriate categories",
+		"description": "The diagnostic setting should be configured to log the appropriate activities from the control/management plane.",
+		"status": true,
+		"testCaseId": "DIAGNOSTICS_SETTINGS_002"
+  },
+  {
+    "name": "Ensure that Diagnostic Logs are enabled for all services which support it",
+		"description": "Diagnostic Logs capture activity to the data access plane while the Activity log is a subscription-level log for the control plane. Resource-level diagnostic logs provide insight into operations that were performed within that resource itself. It is crucial that logging systems are correctly configured to log all relevant activities and retain those logs for a sufficient length of time.",
+		"status": true,
+		"testCaseId": "DIAGNOSTICS_SETTINGS_LOG_001"
+  },
+  {
+    "name": "Ensure the storage container storing the activity logs is not publicly accessible",
+		"description": "The storage account container containing the activity log export should not be publicly accessible.",
+		"status": true,
+		"testCaseId": "LOG_PROFILES_007"
+  },
+  {
+    "name": "Ensure that Activity Log Alert exists for Delete Policy Assignment",
+		"description": "Create an activity log alert for the Delete Policy Assignment event.",
+		"status": true,
+		"testCaseId": "SECURITY_ALERTS_011"
+  },
+  {
+    "name": "Ensure Virtual Machines are utilizing Managed Disks",
+		"description": "Migrate BLOB based VHD's to Managed Disks on Virtual Machines to use their default features.",
+		"status": true,
+		"testCaseId": "COMPUTE_VIRTUAL_MACHINES_013"
+  },
+  {
+    "name": "Ensure that UDP Services are restricted from the Internet",
+    "description": "Disable Internet exposed UDP ports on network security groups.",
+    "status": true,
+    "testCaseId": "COMPUTE_VIRTUAL_MACHINES_015"
+  }
+]
