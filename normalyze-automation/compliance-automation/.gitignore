@@ -1,5 +1,5 @@
-.terraform
-.DS_Store
-.idea
+.terraform/
+.DS_Store/
+.idea/
 .terraform.lock.hcl
-.DS_Store
+node_modules/
