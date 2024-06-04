@@ -2,4 +2,4 @@
 .DS_Store/
 .idea/
 .terraform.lock.hcl
-node_modules/
+node_modules
