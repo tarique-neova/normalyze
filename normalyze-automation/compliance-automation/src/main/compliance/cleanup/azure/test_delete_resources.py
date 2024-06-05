@@ -39,7 +39,7 @@ class Cleanup:
 def test_delete_storage_accounts_with_prefix():
     resource_group_name = "tsalat-test"
     prefix = "neovaauto"
-    credentials_file_path = "../../../../../../../data/compliance/cloud/azure/AZURECredentials.json"
+    credentials_file_path = "../../../../../data/compliance/cloud/azure/AZURECredentials.json"
 
     # Initialize and authenticate
     azure_config = InitializeAzureConfigurations(credentials_file_path)

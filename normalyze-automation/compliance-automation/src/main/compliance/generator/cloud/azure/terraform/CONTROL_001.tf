@@ -14,7 +14,7 @@ resource "time_static" "current_time" {}
 # }
 
 module "azurerm_storage_account" {
-  source                    = "../common/terraform/modules"
+  source                    = "../helper/terraform/modules"
   name                      = replace(replace(local.customized_name, " ", ""), "-", "")
   resource_group            = var.resource_group
   region                    = var.region
