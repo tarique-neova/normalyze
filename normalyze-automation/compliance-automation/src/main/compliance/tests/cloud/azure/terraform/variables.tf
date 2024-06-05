@@ -29,3 +29,23 @@ variable "resource_group" {
   description = "Resource group name"
   default     = "tsalat-test"
 }
+
+variable "account_tier" {
+  description = "Resource group name"
+  default     = "Standard"
+}
+
+variable "account_replication_type" {
+  description = "Resource group name"
+  default     = "GRS"
+}
+
+variable "enable_https_traffic_only" {
+  description = "Resource group name"
+  default     = true
+}
+
+variable "environment" {
+  description = "Resource group name"
+  default     = "staging"
+}

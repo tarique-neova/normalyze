@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./normalyze-automation/compliance-automation/src/main/compliance/terraform/azure/common"
+    ]
+}

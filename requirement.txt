@@ -1,0 +1,5 @@
+azure-identity
+azure-mgmt-storage
+pytest
+flake8
+flask
