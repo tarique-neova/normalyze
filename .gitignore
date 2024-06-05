@@ -14,3 +14,4 @@ node_modules/
 terraform.tfstate
 terraform.tfstate.backup
 __pycache__/
+.vscode/
