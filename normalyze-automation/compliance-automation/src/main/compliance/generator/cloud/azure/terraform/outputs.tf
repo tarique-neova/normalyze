@@ -1,30 +1,27 @@
-# output "storage_account_name" {
-#   description = "The name of the Azure Storage Account"
-#   value       = module.azurerm_storage_account.storage_account_name
-# }
+output "database_name" {
+  value = module.azure_mssql_server.mssql_database_name
+}
 
+output "mssql_fully_qualified_domain_name" {
+  value = module.azure_mssql_server.mssql_fully_qualified_domain_name
+}
 
-# output "sql_database_id" {
-#   description = "The name of the Azure Storage Account"
-#   value       = azurerm_mssql_server.sql_server.id
-# }
-#
-# output "fully_qualified_domain_name" {
-#   value       = azurerm_mssql_server.sql_server.fully_qualified_domain_name
-# }
-#
-# output "administrator_login" {
-#   value       = azurerm_mssql_server.sql_server.administrator_login
-# }
-#
-# output "name" {
-#   value       = azurerm_mssql_server.sql_server.name
-# }
+output "mssql_server_name" {
+  value = module.azure_mssql_server.mssql_server_name
+}
 
-# output "storage_account_name" {
-#   value = azurerm_storage_account.storage_account.name
-# }
-#
-# output "blob_container_name" {
-#   value = azurerm_storage_blob.blob.content_md5
-# }
+output "login_username" {
+  value = module.azure_mssql_server.login_username
+}
+
+output "blob_container_name" {
+  value = module.blob_container.blob_container_name
+}
+
+output "blob_storage_account_name" {
+  value = module.blob_container.blob_storage_account_name
+}
+
+output "data_lake_storage_account_name" {
+  value = module.data_lake_container.data_lake_storage_account_name
+}

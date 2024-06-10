@@ -16,3 +16,4 @@ terraform.tfstate.backup
 __pycache__/
 .vscode/
 .env
+random_value.txt
