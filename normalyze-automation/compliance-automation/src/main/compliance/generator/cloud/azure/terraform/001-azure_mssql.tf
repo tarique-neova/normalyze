@@ -86,7 +86,7 @@ module "azure_mssql_server" {
 
 resource "null_resource" "insert_data" {
   provisioner "local-exec" {
-    command = "python3 scripts/connect_azure_mssql.py"
+    command = "python3 scripts/insert_data_in_mssql_db.py"
   }
   depends_on = [module.azure_mssql_server]
 }
