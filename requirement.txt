@@ -3,3 +3,5 @@ azure-mgmt-storage
 pytest
 flake8
 flask
+pytest-html
+allure-pytest

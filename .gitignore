@@ -17,3 +17,5 @@ __pycache__/
 .vscode/
 .env
 random_value.txt
+allure-results/
+allure-report/
