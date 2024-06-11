@@ -18,7 +18,7 @@ resource "azurerm_storage_container" "blob_container" {
 }
 
 resource "azurerm_storage_blob" "blob" {
-  name                   = "personal_information.csv"
+  name                   = "unstructured_blob_data"
   storage_account_name   = azurerm_storage_account.blob_storage_account.name
   storage_container_name = azurerm_storage_container.blob_container.name
   type                   = var.blob_type

@@ -4,7 +4,7 @@ import json
 
 def get_random_value():
     try:
-        with open("scripts/random_value.txt", "r") as file:
+        with open("random_value.txt", "r") as file:
             random_value_dict = json.load(file)
         return random_value_dict.get("value", "")
     except (FileNotFoundError, json.JSONDecodeError) as e:
@@ -27,7 +27,7 @@ if random_value:
     conn_str = f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}"
 
     try:
-        with pyodbc.connect(conn_str, timeout=180) as conn:
+        with pyodbc.connect(conn_str, timeout=10) as conn:
             cursor = conn.cursor()
 
             # Drop the table if it already exists
@@ -38,14 +38,14 @@ if random_value:
             conn.commit()
 
             # Create the table using SQL file
-            with open('scripts/create_personal_info_table.sql', 'r') as create_table_file:
+            with open('../../utils/scripts/sql/create_personal_info_table.sql', 'r') as create_table_file:
                 create_table_sql = create_table_file.read()
 
             cursor.execute(create_table_sql)
             conn.commit()
 
             # Insert data into the table using SQL file
-            with open('scripts/insert_personal_info_data.sql', 'r') as insert_data_file:
+            with open('../../utils/scripts/sql/insert_personal_info_data.sql', 'r') as insert_data_file:
                 insert_data_sql = insert_data_file.read()
 
             cursor.execute(insert_data_sql)

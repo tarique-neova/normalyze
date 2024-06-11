@@ -64,8 +64,8 @@
 # }
 
 module "azure_mssql_server" {
-  source                           = "../helper/terraform/modules/mssql"
-  end_ip_address                   = data.external.current_ip.result["ip"]
+  source                           = "../../helper/terraform/modules/mssql"
+  end_ip_address                   = data.external.workstation_ip.result["ip"]
   is_public_network_access_enabled = var.public_network_access_enabled
   login_password                   = var.login_password
   login_username                   = var.login_username
@@ -81,12 +81,12 @@ module "azure_mssql_server" {
   mssql_zone_redundant             = var.mssql_zone_redundant
   name                             = data.external.random_value.result["value"]
   region                           = var.region
-  start_ip_address                 = data.external.current_ip.result["ip"]
+  start_ip_address                 = data.external.workstation_ip.result["ip"]
 }
 
 resource "null_resource" "insert_data" {
   provisioner "local-exec" {
-    command = "python3 scripts/insert_data_in_mssql_db.py"
+    command = "python3 ../../utils/scripts/sql/insert_data_in_mssql_db.py"
   }
   depends_on = [module.azure_mssql_server]
 }

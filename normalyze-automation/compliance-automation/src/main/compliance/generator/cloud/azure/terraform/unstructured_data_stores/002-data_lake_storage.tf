@@ -35,7 +35,7 @@
 # }
 
 module "data_lake_container" {
-  source                   = "../helper/terraform/modules/data_lake_storage"
+  source                   = "../../helper/terraform/modules/data_lake_storage"
   account_replication_type = var.blob_account_replication_type
   account_tier             = var.blob_account_tier
   blob_type                = var.blob_type

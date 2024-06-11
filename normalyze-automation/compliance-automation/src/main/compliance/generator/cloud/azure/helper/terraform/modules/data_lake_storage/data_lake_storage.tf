@@ -18,7 +18,7 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_filesystem" {
 }
 
 resource "azurerm_storage_blob" "upload_data" {
-  name                   = "personal_information.csv"
+  name                   = "unstructured_data_lake_data"
   storage_account_name   = azurerm_storage_account.data_lake_account.name
   storage_container_name = azurerm_storage_data_lake_gen2_filesystem.data_lake_filesystem.name
   type                   = var.blob_type

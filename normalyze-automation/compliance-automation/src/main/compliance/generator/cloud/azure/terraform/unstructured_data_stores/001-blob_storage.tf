@@ -28,7 +28,7 @@
 # }
 
 module "blob_container" {
-  source                   = "../helper/terraform/modules/blob_storage"
+  source                   = "../../helper/terraform/modules/blob_storage"
   account_replication_type = var.blob_account_replication_type
   account_tier             = var.blob_account_tier
   blob_type                = var.blob_type

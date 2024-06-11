@@ -55,10 +55,3 @@ resource "azurerm_mssql_database" "mssql_db" {
     prevent_destroy = false
   }
 }
-
-resource "null_resource" "insert_data" {
-  provisioner "local-exec" {
-    command = "python3 scripts/connect_azure_mssql.py"
-  }
-  depends_on = [azurerm_mssql_database.mssql_db]
-}
