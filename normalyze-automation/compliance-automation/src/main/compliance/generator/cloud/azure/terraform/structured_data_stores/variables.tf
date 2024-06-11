@@ -21,10 +21,16 @@ variable "login_password" {
   default     = "Normalyze#12345"
 }
 
-variable "minimum_tls_version" {
+variable "mssql_minimum_tls_version" {
   description = "Minimum TLS version of mssql server"
   type        = string
   default     = "1.2"
+}
+
+variable "pgsql_minimum_tls_version" {
+  description = "Minimum TLS version of postgresql server"
+  type        = string
+  default     = "TLS1_2"
 }
 
 variable "is_public_network_access_enabled" {
@@ -85,4 +91,65 @@ variable "mssql_tag" {
   description = "Tag name of mssql database"
   type        = string
   default     = "bar"
+}
+
+variable "pgsql_backup_retention_days" {
+  type        = string
+  default     = 7
+}
+
+variable "pgsql_charset" {
+  type        = string
+  default     = "UTF8"
+}
+
+variable "pgsql_collation" {
+  type        = string
+  default     = "English_United States.1252"
+}
+
+variable "pgsql_login_username" {
+  type        = string
+  default     = "neovatest"
+}
+
+variable "pgsql_sku" {
+  type        = string
+  default     = "GP_Gen5_4"
+}
+
+variable "pgsql_storage" {
+  type        = string
+  default     = 640000
+}
+
+variable "pgsql_version" {
+  type        = string
+  default     = "11"
+}
+
+variable "pgsql_auto_grow_enabled" {
+  type        = bool
+  default     = true
+}
+
+variable "pgsql_geo_redundant_backup_enabled" {
+  type        = bool
+  default     = true
+}
+
+variable "pgsql_public_network_access_enabled" {
+  type        = bool
+  default     = true
+}
+
+
+variable "pgsql_ssl_enforcement_enabled" {
+  type        = bool
+  default     = true
+}
+
+variable "pgsql_ssl_minimal_tls_version_enforced" {
+  type        = bool
+  default     = true
 }

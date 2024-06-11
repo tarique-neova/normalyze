@@ -69,7 +69,7 @@ module "azure_mssql_server" {
   is_public_network_access_enabled = var.public_network_access_enabled
   login_password                   = var.login_password
   login_username                   = var.login_username
-  minimum_tls_version              = var.minimum_tls_version
+  minimum_tls_version              = var.mssql_minimum_tls_version
   mssql_collation                  = var.mssql_collation
   mssql_identity                   = var.mssql_identity
   mssql_license_type               = var.mssql_license_type
