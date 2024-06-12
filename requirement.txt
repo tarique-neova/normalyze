@@ -6,3 +6,4 @@ flask
 pytest-html
 allure-pytest
 psycopg2-binary
+azure-storage-queue

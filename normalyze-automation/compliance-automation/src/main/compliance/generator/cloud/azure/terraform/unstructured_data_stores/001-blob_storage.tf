@@ -27,13 +27,13 @@
 #   source_content         = file("files/personal_information.csv")
 # }
 
-module "blob_container" {
-  source                   = "../../helper/terraform/modules/blob_storage"
-  account_replication_type = var.blob_account_replication_type
-  account_tier             = var.blob_account_tier
-  blob_type                = var.blob_type
-  container_access_type    = var.blob_container_access_type
-  file_location            = var.personal_data_file_path
-  name                     = "${data.external.random_value.result["value"]}blob"
-  region                   = var.region
-}
+# module "blob_container" {
+#   source                   = "../../helper/terraform/modules/blob_storage"
+#   account_replication_type = var.blob_account_replication_type
+#   account_tier             = var.blob_account_tier
+#   blob_type                = var.blob_type
+#   container_access_type    = var.blob_container_access_type
+#   file_location            = var.personal_data_file_path
+#   name                     = "${data.external.random_value.result["value"]}blob"
+#   region                   = var.region
+# }
