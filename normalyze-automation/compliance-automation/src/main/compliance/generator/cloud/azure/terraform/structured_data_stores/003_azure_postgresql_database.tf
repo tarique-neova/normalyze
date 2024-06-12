@@ -41,31 +41,31 @@
 #   depends_on = [azurerm_postgresql_server.pgsql_server]
 # }
 
-module "azure_postgresql_server" {
-  source                                 = "../../helper/terraform/modules/postgresql"
-  end_ip_address                         = data.external.workstation_ip.result["ip"]
-  login_password                         = var.login_password
-  minimum_tls_version                    = var.pgsql_minimum_tls_version
-  name                                   = data.external.random_value.result["value"]
-  pgsql_auto_grow_enabled                = var.pgsql_auto_grow_enabled
-  pgsql_backup_retention_days            = var.pgsql_backup_retention_days
-  pgsql_charset                          = var.pgsql_charset
-  pgsql_collation                        = var.pgsql_collation
-  pgsql_geo_redundant_backup_enabled     = var.pgsql_geo_redundant_backup_enabled
-  pgsql_login_username                   = var.pgsql_login_username
-  pgsql_public_network_access_enabled    = var.pgsql_public_network_access_enabled
-  pgsql_sku                              = var.pgsql_sku
-  pgsql_ssl_enforcement_enabled          = var.pgsql_ssl_enforcement_enabled
-  pgsql_ssl_minimal_tls_version_enforced = var.pgsql_minimum_tls_version
-  pgsql_storage                          = var.pgsql_storage
-  pgsql_version                          = var.pgsql_version
-  region                                 = var.region
-  start_ip_address                       = data.external.workstation_ip.result["ip"]
-}
-
-resource "null_resource" "insert_data" {
-  provisioner "local-exec" {
-    command = "python3 ../../utils/scripts/sql/test_insert_data_in_postgresql_db.py"
-  }
-  depends_on = [module.azure_postgresql_server]
-}
+# module "azure_postgresql_server" {
+#   source                                 = "../../helper/terraform/modules/postgresql"
+#   end_ip_address                         = data.external.workstation_ip.result["ip"]
+#   login_password                         = var.login_password
+#   minimum_tls_version                    = var.pgsql_minimum_tls_version
+#   name                                   = data.external.random_value.result["value"]
+#   pgsql_auto_grow_enabled                = var.pgsql_auto_grow_enabled
+#   pgsql_backup_retention_days            = var.pgsql_backup_retention_days
+#   pgsql_charset                          = var.pgsql_charset
+#   pgsql_collation                        = var.pgsql_collation
+#   pgsql_geo_redundant_backup_enabled     = var.pgsql_geo_redundant_backup_enabled
+#   pgsql_login_username                   = var.pgsql_login_username
+#   pgsql_public_network_access_enabled    = var.pgsql_public_network_access_enabled
+#   pgsql_sku                              = var.pgsql_sku
+#   pgsql_ssl_enforcement_enabled          = var.pgsql_ssl_enforcement_enabled
+#   pgsql_ssl_minimal_tls_version_enforced = var.pgsql_minimum_tls_version
+#   pgsql_storage                          = var.pgsql_storage
+#   pgsql_version                          = var.pgsql_version
+#   region                                 = var.region
+#   start_ip_address                       = data.external.workstation_ip.result["ip"]
+# }
+#
+# resource "null_resource" "insert_data" {
+#   provisioner "local-exec" {
+#     command = "python3 ../../utils/scripts/sql/test_insert_data_in_postgresql_db.py"
+#   }
+#   depends_on = [module.azure_postgresql_server]
+# }
