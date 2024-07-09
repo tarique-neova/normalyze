@@ -1,0 +1,40 @@
+{
+  "name": "normalyze-poc-tests",
+  "version": "1.0.0",
+  "description": "Azure data store validation tests",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "trigger_blob_scan": "mocha --no-deprecation api/test/unstructured_data_store/trigger_blob_container_scan.js",
+    "trigger_sql_server_scan": "mocha --no-deprecation api/test/structured_data_store/trigger_sql_server_scan.js",
+    "create_blob_container": "mocha --no-deprecation test/generator/azure/unstructred_data_store/blob_container.js",
+    "create_sql_server": "mocha --no-deprecation test/generator/azure/structured_data_store/sql_server.js",
+    "azure_e2e": "mocha --no-deprecation test/validator/azure/unstructured_data_store/test_azureblob_container_scheduler.js",
+    "format_json": "mocha --no-deprecation test/validator/azure/unstructured_data_store/format_json.js",
+    "abc": "mocha --no-deprecation test/validator/azure/unstructured_data_store/abc_copy.js",
+    "abc_new": "mocha --no-deprecation test/validator/azure/unstructured_data_store/abc_copy_new.js",
+    "date": "mocha --no-deprecation api/config/epoch.js"
+  },
+  "keywords": [
+    "test",
+    "blob_container",
+    "sql_server"
+  ],
+  "author": "Tarique Salat",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/arm-sql": "^9.0.0",
+    "@azure/arm-storage": "^17.0.0",
+    "@azure/identity": "^3.0.0",
+    "@azure/storage-blob": "latest",
+    "axios": "^1.7.2",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.4.5",
+    "moment": "^2.30.1",
+    "tedious": "^14.3.0"
+  },
+  "devDependencies": {
+    "chai": "^5.1.1",
+    "mocha": "^10.6.0"
+  }
+}
