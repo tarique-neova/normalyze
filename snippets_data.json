@@ -1,0 +1,320 @@
+{
+  "accountId": "f22fa846922f",
+  "dataStoreType": "AZUREBLOB-CONTAINER",
+  "dataStoreId": "/subscriptions/f22fa846-922f-4b91-a236-c866835dfe2a/resourceGroups/neova-team/providers/Microsoft.Storage/storageAccounts/neova46n18/blobServices/default/containers/neova46n18-container",
+  "profileSnippet": [
+    {
+      "objectName": "financial_information.csv",
+      "profileList": [
+        {
+          "profileName": "CREDIT_CARD_N_PERSON",
+          "profileCount": 7,
+          "snippetList": [
+            {
+              "offset": 95,
+              "text": "piry Date\tBank Account Number\n\t[PERSON:Jane Smith]\t[CREDIT_CARD_NUMBER:5371735815412763]\tBank of America\t456\t24-Nov\t13719713158835300\n\tAli"
+            },
+            {
+              "offset": 231,
+              "text": "lice Johnson\t[CREDIT_CARD_NUMBER:5194583008478687]\tAmerican Express\t789\t26-Oct\t71086643758945400\n\t[PERSON:Bob Brown]\t[CREDIT_CARD_NUMBER:5438516843285293]\tDiners Club"
+            },
+            {
+              "offset": 335,
+              "text": "N:Bob Brown]\t[CREDIT_CARD_NUMBER:5438516843285293]\tDiners Club\t101\t23-Sep\t53153834006064000\n\t[PERSON:Charlie Davis]\t[CREDIT_CARD_NUMBER:370387206269378]\tDiscover\t202"
+            },
+            {
+              "offset": 437,
+              "text": "harlie Davis]\t[CREDIT_CARD_NUMBER:370387206269378]\tDiscover\t202\t25-Aug\t3690859741294280\n\t[PERSON:Daisy Miller]\t[CREDIT_CARD_NUMBER:374473932963934]\tCitiBank\t303"
+            },
+            {
+              "offset": 534,
+              "text": "Daisy Miller]\t[CREDIT_CARD_NUMBER:374473932963934]\tCitiBank\t303\t24-Jul\t37530666568966100\n\t[PERSON:Ethan Wilson]\t[CREDIT_CARD_NUMBER:370967519907721]\tBarclaycard\t"
+            },
+            {
+              "offset": 632,
+              "text": "Ethan Wilson]\t[CREDIT_CARD_NUMBER:370967519907721]\tBarclaycard\t404\t25-Jun\t70048841700216300\n\tFiona Clark\t[CREDIT_CARD_NUMBER:4592704388032917]\tHSBC\t505\t23-May\t89135767380499400\n\tGeorge Hall\t[CREDIT_CARD_NUMBER:4609589801865196]\tCapital One\t606\t26-Apr\t12494980148173100\n\t[PERSON:Hannah Allen]\t[CREDIT_CARD_NUMBER:4712827571593430]\tWells Fargo"
+            },
+            {
+              "offset": 724,
+              "text": "\tFiona Clark\t[CREDIT_CARD_NUMBER:4592704388032917]\tHSBC\t505\t23-May\t89135767380499400\n\tGeorge Hall\t[CREDIT_CARD_NUMBER:4609589801865196]\tCapital One\t606\t26-Apr\t12494980148173100\n\t[PERSON:Hannah Allen]\t[CREDIT_CARD_NUMBER:4712827571593430]\tWells Fargo\t707\t24-Mar\t8744336085399580\n\t[PERSON:Ian Thompson]\t[CREDIT_CARD_NUMBER:4528081261325828]\tChase\t234\t2"
+            }
+          ]
+        }
+      ],
+      "runId": "8090a6e2-3f92-11ef-9fd0-725190767d7b"
+    },
+    {
+      "objectName": "personal_information.xlsx",
+      "profileList": [
+        {
+          "profileName": "PERSON_N_EMAIL",
+          "profileCount": 4,
+          "snippetList": [
+            {
+              "offset": 179,
+              "text": "urg Cpa Pc\t14 [PERSON:Taylor St\tSt. Stephens Ward]\tKent\tCT2 7PP\t01835-703597\t[US_SSN:592-59-5116]\t[EMAIL_ADDRESS:atomkiewicz@hotmail.com\n]\tEvan Zigomalas\tCap Gemini America\t5 [PERSON:Binne"
+            },
+            {
+              "offset": 333,
+              "text": "Cap Gemini America\t5 [PERSON:Binney St\tAbbey Ward]\tBuckinghamshire\tHP11 2AX\t01937-864715\t[US_SSN:736-83-1456]\t[EMAIL_ADDRESS:evan.zigomalas@gmail.com\n]\t[COUNTRY:France] Andrade\tElliott John W Esq\t8 Moo"
+            },
+            {
+              "offset": 951,
+              "text": "7-1360]\t[EMAIL_ADDRESS:tyisha.veness@hotmail.com\n]\tCharlesetta Erm\tCain\tJohn M Esq\t5 Hygeia St\tLoundsley Green Ward Derbyshire\tS40 4LY\t01276-816806\t[US_SSN:295-94-4686]\t[EMAIL_ADDRESS:charlesetta_erm@gmail.com\n]\t[PERSON:Corrinne Jaret\tSound Vision Corp]\t2150 Morley St\tDee Ward\tDumfries and Galloway\tDG8"
+            },
+            {
+              "offset": 1112,
+              "text": "4-4686]\t[EMAIL_ADDRESS:charlesetta_erm@gmail.com\n]\t[PERSON:Corrinne Jaret\tSound Vision Corp]\t2150 Morley St\tDee Ward\tDumfries and Galloway\tDG8 7DE\t01625-932209\t[US_SSN:251-11-7530]\t[EMAIL_ADDRESS:corrinne_jaret@gmail.com\n]\t[PERSON:Niesha Bruch\t]Rowley/hansell Petetin\t24 Bolton St\tBroxburn\tUphal"
+            }
+          ]
+        },
+        {
+          "profileName": "PERSON_N_SSN",
+          "profileCount": 4,
+          "snippetList": [
+            {
+              "offset": 179,
+              "text": "urg Cpa Pc\t14 [PERSON:Taylor St\tSt. Stephens Ward]\tKent\tCT2 7PP\t01835-703597\t[US_SSN:592-59-5116]\t[EMAIL_ADDRESS:atomkiewicz@hotmail.com\n]\tEvan Zig"
+            },
+            {
+              "offset": 333,
+              "text": "Cap Gemini America\t5 [PERSON:Binney St\tAbbey Ward]\tBuckinghamshire\tHP11 2AX\t01937-864715\t[US_SSN:736-83-1456]\t[EMAIL_ADDRESS:evan.zigomalas@gmail.com\n]\t[COUNTR"
+            },
+            {
+              "offset": 908,
+              "text": "Midlands\tB70 9DT\t01547-429341\t[US_SSN:106-77-1360]\t[EMAIL_ADDRESS:tyisha.veness@hotmail.com\n]\tCharlesetta Erm\tCain\tJohn M Esq\t5 Hygeia St\tLoundsley Green Ward Derbyshire\tS40 4LY\t01276-816806\t[US_SSN:295-94-4686]\t[EMAIL_ADDRESS:charlesetta_erm@gmail.com\n]\t[PERSON:Corrinne Jaret\tSound Vision Corp]\t2150 Morley St\tDee Ward\tDumfries and Galloway\tDG8"
+            },
+            {
+              "offset": 1069,
+              "text": "rbyshire\tS40 4LY\t01276-816806\t[US_SSN:295-94-4686]\t[EMAIL_ADDRESS:charlesetta_erm@gmail.com\n]\t[PERSON:Corrinne Jaret\tSound Vision Corp]\t2150 Morley St\tDee Ward\tDumfries and Galloway\tDG8 7DE\t01625-932209\t[US_SSN:251-11-7530]\t[EMAIL_ADDRESS:corrinne_jaret@gmail.com\n]\t[PERSON:Niesha Bruch\t]Rowley/hansell Petetin\t24 Bolton St\tBroxburn\tUphal"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entitySnippet": [
+    {
+      "objectName": "govt_data.zip",
+      "entityList": [
+        {
+          "entityName": "COUNTRY",
+          "entityCount": 2,
+          "snippetList": [
+            {
+              "offset": 82,
+              "text": "ry,Sector,Expenditure(million USD),GDP(%)\r\n1,2000,[COUNTRY:Australia],Total function,153122.633,37.36193\r\n2,2003,Bolivi"
+            },
+            {
+              "offset": 270,
+              "text": "ndia,Environment protection,279.181,0.013\r\n4,2000,[COUNTRY:Austria],Total function,100682.792,51.16005\r\n5,2015,Irelan"
+            }
+          ]
+        }
+      ],
+      "runId": "8090a6e2-3f92-11ef-9fd0-725190767d7b"
+    },
+    {
+      "objectName": "financial_information.csv",
+      "entityList": [
+        {
+          "entityName": "PERSON",
+          "entityCount": 7,
+          "snippetList": [
+            {
+              "offset": 76,
+              "text": "\tIssued Bank\tCVV\tExpiry Date\tBank Account Number\n\t[PERSON:Jane Smith]\t[CREDIT_CARD_NUMBER:5371735815412763]\tBank of Ame"
+            },
+            {
+              "offset": 279,
+              "text": "7]\tAmerican Express\t789\t26-Oct\t71086643758945400\n\t[PERSON:Bob Brown]\t[CREDIT_CARD_NUMBER:5438516843285293]\tDiners Club"
+            },
+            {
+              "offset": 378,
+              "text": "285293]\tDiners Club\t101\t23-Sep\t53153834006064000\n\t[PERSON:Charlie Davis]\t[CREDIT_CARD_NUMBER:370387206269378]\tDiscover\t202"
+            },
+            {
+              "offset": 476,
+              "text": "7206269378]\tDiscover\t202\t25-Aug\t3690859741294280\n\t[PERSON:Daisy Miller]\t[CREDIT_CARD_NUMBER:374473932963934]\tCitiBank\t303"
+            },
+            {
+              "offset": 574,
+              "text": "932963934]\tCitiBank\t303\t24-Jul\t37530666568966100\n\t[PERSON:Ethan Wilson]\t[CREDIT_CARD_NUMBER:370967519907721]\tBarclaycard\t"
+            },
+            {
+              "offset": 852,
+              "text": "865196]\tCapital One\t606\t26-Apr\t12494980148173100\n\t[PERSON:Hannah Allen]\t[CREDIT_CARD_NUMBER:4712827571593430]\tWells Fargo"
+            },
+            {
+              "offset": 953,
+              "text": "1593430]\tWells Fargo\t707\t24-Mar\t8744336085399580\n\t[PERSON:Ian Thompson]\t[CREDIT_CARD_NUMBER:4528081261325828]\tChase\t234\t2"
+            }
+          ]
+        },
+        {
+          "entityName": "CREDIT_CARD_NUMBER",
+          "entityCount": 10,
+          "snippetList": [
+            {
+              "offset": 96,
+              "text": "iry Date\tBank Account Number\n\t[PERSON:Jane Smith]\t[CREDIT_CARD_NUMBER:5371735815412763]\tBank of America\t456\t24-Nov\t13719713158835300\n\tAli"
+            },
+            {
+              "offset": 194,
+              "text": "erica\t456\t24-Nov\t13719713158835300\n\tAlice Johnson\t[CREDIT_CARD_NUMBER:5194583008478687]\tAmerican Express\t789\t26-Oct\t71086643758945400\n\t[P"
+            },
+            {
+              "offset": 298,
+              "text": "\t789\t26-Oct\t71086643758945400\n\t[PERSON:Bob Brown]\t[CREDIT_CARD_NUMBER:5438516843285293]\tDiners Club\t101\t23-Sep\t53153834006064000\n\t[PERSON"
+            },
+            {
+              "offset": 401,
+              "text": "\t23-Sep\t53153834006064000\n\t[PERSON:Charlie Davis]\t[CREDIT_CARD_NUMBER:370387206269378]\tDiscover\t202\t25-Aug\t3690859741294280\n\t[PERSON:Dai"
+            },
+            {
+              "offset": 498,
+              "text": "02\t25-Aug\t3690859741294280\n\t[PERSON:Daisy Miller]\t[CREDIT_CARD_NUMBER:374473932963934]\tCitiBank\t303\t24-Jul\t37530666568966100\n\t[PERSON:Et"
+            },
+            {
+              "offset": 596,
+              "text": "3\t24-Jul\t37530666568966100\n\t[PERSON:Ethan Wilson]\t[CREDIT_CARD_NUMBER:370967519907721]\tBarclaycard\t404\t25-Jun\t70048841700216300\n\tFiona C"
+            },
+            {
+              "offset": 687,
+              "text": "laycard\t404\t25-Jun\t70048841700216300\n\tFiona Clark\t[CREDIT_CARD_NUMBER:4592704388032917]\tHSBC\t505\t23-May\t89135767380499400\n\tGeorge Hall\t[C"
+            },
+            {
+              "offset": 772,
+              "text": "7]\tHSBC\t505\t23-May\t89135767380499400\n\tGeorge Hall\t[CREDIT_CARD_NUMBER:4609589801865196]\tCapital One\t606\t26-Apr\t12494980148173100\n\t[PERSON"
+            },
+            {
+              "offset": 874,
+              "text": "6\t26-Apr\t12494980148173100\n\t[PERSON:Hannah Allen]\t[CREDIT_CARD_NUMBER:4712827571593430]\tWells Fargo\t707\t24-Mar\t8744336085399580\n\t[PERSON:"
+            },
+            {
+              "offset": 975,
+              "text": "07\t24-Mar\t8744336085399580\n\t[PERSON:Ian Thompson]\t[CREDIT_CARD_NUMBER:4528081261325828]\tChase\t234\t25-Feb\t64289489845768000\n\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "objectName": "personal_information.xlsx",
+      "entityList": [
+        {
+          "entityName": "PERSON",
+          "entityCount": 4,
+          "snippetList": [
+            {
+              "offset": 143,
+              "text": "ss\n\tAleshia Tomkiewicz\tAlan D Rosenburg Cpa Pc\t14 [PERSON:Taylor St\tSt. Stephens Ward]\tKent\tCT2 7PP\t01835-703597\t[US_SSN:592-59-5116]\t[E"
+            },
+            {
+              "offset": 304,
+              "text": "hotmail.com\n]\tEvan Zigomalas\tCap Gemini America\t5 [PERSON:Binney St\tAbbey Ward]\tBuckinghamshire\tHP11 2AX\t01937-864715\t[US_SSN:736"
+            },
+            {
+              "offset": 1113,
+              "text": "-4686]\t[EMAIL_ADDRESS:charlesetta_erm@gmail.com\n]\t[PERSON:Corrinne Jaret\tSound Vision Corp]\t2150 Morley St\tDee Ward\tDumfries and Galloway\tDG8"
+            },
+            {
+              "offset": 1285,
+              "text": "1-7530]\t[EMAIL_ADDRESS:corrinne_jaret@gmail.com\n]\t[PERSON:Niesha Bruch\t]Rowley/hansell Petetin\t24 Bolton St\tBroxburn\tUphal"
+            }
+          ]
+        },
+        {
+          "entityName": "US_SSN",
+          "entityCount": 7,
+          "snippetList": [
+            {
+              "offset": 206,
+              "text": "r St\tSt. Stephens Ward]\tKent\tCT2 7PP\t01835-703597\t[US_SSN:592-59-5116]\t[EMAIL_ADDRESS:atomkiewicz@hotmail.com\n]\tEvan Zig"
+            },
+            {
+              "offset": 372,
+              "text": "Abbey Ward]\tBuckinghamshire\tHP11 2AX\t01937-864715\t[US_SSN:736-83-1456]\t[EMAIL_ADDRESS:evan.zigomalas@gmail.com\n]\t[COUNTR"
+            },
+            {
+              "offset": 556,
+              "text": "ne and Tuckton W\tBournemouth\tBH6 3BE\t01347-368222\t[US_SSN:141-23-1071]\t[EMAIL_ADDRESS:france.andrade@hotmail.com\n]\tUlyss"
+            },
+            {
+              "offset": 721,
+              "text": "rby cum Beesby\tLincolnshire\tDN36 5RP\t01912-771311\t[US_SSN:849-30-2627]\t[EMAIL_ADDRESS:ulysses@hotmail.com\n]\tTyisha Venes"
+            },
+            {
+              "offset": 888,
+              "text": " and Lyng Ward\tWest Midlands\tB70 9DT\t01547-429341\t[US_SSN:106-77-1360]\t[EMAIL_ADDRESS:tyisha.veness@hotmail.com\n]\tCharle"
+            },
+            {
+              "offset": 1049,
+              "text": "ndsley Green Ward Derbyshire\tS40 4LY\t01276-816806\t[US_SSN:295-94-4686]\t[EMAIL_ADDRESS:charlesetta_erm@gmail.com\n]\t[PERSO"
+            },
+            {
+              "offset": 1222,
+              "text": "e Ward\tDumfries and Galloway\tDG8 7DE\t01625-932209\t[US_SSN:251-11-7530]\t[EMAIL_ADDRESS:corrinne_jaret@gmail.com\n]\t[PERSON"
+            }
+          ]
+        },
+        {
+          "entityName": "EMAIL_ADDRESS",
+          "entityCount": 10,
+          "snippetList": [
+            {
+              "offset": 227,
+              "text": "d]\tKent\tCT2 7PP\t01835-703597\t[US_SSN:592-59-5116]\t[EMAIL_ADDRESS:atomkiewicz@hotmail.com\n]\tEvan Zigomalas\tCap Gemini America\t5 [PERSON:Binne"
+            },
+            {
+              "offset": 393,
+              "text": "mshire\tHP11 2AX\t01937-864715\t[US_SSN:736-83-1456]\t[EMAIL_ADDRESS:evan.zigomalas@gmail.com\n]\t[COUNTRY:France] Andrade\tElliott John W Esq\t8 Moo"
+            },
+            {
+              "offset": 577,
+              "text": "nemouth\tBH6 3BE\t01347-368222\t[US_SSN:141-23-1071]\t[EMAIL_ADDRESS:france.andrade@hotmail.com\n]\tUlysses Mcwalters\tMcmahan Ben L\t505 Exeter Rd\tHaw"
+            },
+            {
+              "offset": 742,
+              "text": "nshire\tDN36 5RP\t01912-771311\t[US_SSN:849-30-2627]\t[EMAIL_ADDRESS:ulysses@hotmail.com\n]\tTyisha Veness\tChampagne Room\t5396 Forth Street\tGr"
+            },
+            {
+              "offset": 909,
+              "text": "idlands\tB70 9DT\t01547-429341\t[US_SSN:106-77-1360]\t[EMAIL_ADDRESS:tyisha.veness@hotmail.com\n]\tCharlesetta Erm\tCain\tJohn M Esq\t5 Hygeia St\tLound"
+            },
+            {
+              "offset": 1070,
+              "text": "byshire\tS40 4LY\t01276-816806\t[US_SSN:295-94-4686]\t[EMAIL_ADDRESS:charlesetta_erm@gmail.com\n]\t[PERSON:Corrinne Jaret\tSound Vision Corp]\t2150 Mo"
+            },
+            {
+              "offset": 1243,
+              "text": "alloway\tDG8 7DE\t01625-932209\t[US_SSN:251-11-7530]\t[EMAIL_ADDRESS:corrinne_jaret@gmail.com\n]\t[PERSON:Niesha Bruch\t]Rowley/hansell Petetin\t24 B"
+            },
+            {
+              "offset": 1407,
+              "text": "l and Winchburg\tEH52 5TL\t01874-856950\t132-72-7179\t[EMAIL_ADDRESS:niesha.bruch@yahoo.com\n]\tRueben Gastellum\tIndustrial Engineering Assocs\t4 "
+            },
+            {
+              "offset": 1574,
+              "text": "\tNorth Somerset\tBS23 3HG\t01976-755279\t572-49-4597\t[EMAIL_ADDRESS:rueben_gastellum@gastellum.co.uk\n]\tMichell Throssell\tWeiss Spirt & Guyer\t89 Noon St\t"
+            },
+            {
+              "offset": 1725,
+              "text": "rbrooke\tNorfolk\tIP25 6JQ\t01967-580851\t470-51-9558\t[EMAIL_ADDRESS:mthrossell@throssell.co.uk\n]\n\n"
+            }
+          ]
+        },
+        {
+          "entityName": "COUNTRY",
+          "entityCount": 1,
+          "snippetList": [
+            {
+              "offset": 435,
+              "text": "3-1456]\t[EMAIL_ADDRESS:evan.zigomalas@gmail.com\n]\t[COUNTRY:France] Andrade\tElliott John W Esq\t8 Moor Place\tEast Sout"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

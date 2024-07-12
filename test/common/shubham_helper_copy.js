@@ -1,45 +1,13 @@
+import XLSX from 'xlsx';
 import fs from 'fs';
 import path from 'path';
-import { ClientSecretCredential } from '@azure/identity';
-import dotenv from 'dotenv';
-import csv from 'csv-parser';
-import XLSX from 'xlsx';
 import { fileURLToPath } from 'url';
+import csv from 'csv-parser';
 import assert from 'assert';
 import JSZip from 'jszip';
 
-await dotenv.config({ path: './.env' });
-
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-export function generateRandomName(prefix, length) {
-  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  let randomString = prefix;
-  for (let i = 0; i < length - prefix.length; i++) {
-    randomString += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return randomString;
-}
-
-export async function authenticateAzure() {
-  try {
-    const tenantId = process.env.AZURE_TENANT_ID;
-    const clientId = process.env.AZURE_SERVICE_PRINCIPAL_ID;
-    const clientSecret = process.env.AZURE_CLIENT_SECRET;
-    const credentials = new ClientSecretCredential(tenantId, clientId, clientSecret);
-
-    // Attempt to get a token to verify authentication
-    await credentials.getToken("https://management.azure.com/.default");
-    console.log("Azure Authentication Successful...");
-    return credentials;
-  } catch (error) {
-    console.error("Azure Authentication Failed...:", error.message);
-    throw error;
-  }
-}
-
 
 // Function to read JSON file
 const readJsonFileForProfiles = (filePath) => {
@@ -157,15 +125,12 @@ const extractProfilesAndEntities = (jsonData) => {
 
 
 // Main function to validate JSON and CSV data
-// Main function to validate JSON and CSV data
-export async function validateData(jsonFilePath, csvFilePath, profileName, columnNames) {
+export const validateData = async (jsonFilePath, csvFilePath, profileName, columnNames) => {
   try {
     const jsonData = await readJsonFileForProfiles(jsonFilePath);
     const csvData = await readCsvFile(csvFilePath);
 
     const { entities } = extractProfilesAndEntities(jsonData);
-
-    let failedAssertions = 0;
 
     columnNames.forEach((columnName) => {
       const csvColumnData = csvData.map(row => row[columnName]);
@@ -183,12 +148,7 @@ export async function validateData(jsonFilePath, csvFilePath, profileName, colum
       if (entityType) {
         const missingData = csvColumnData.filter(data => !entities[entityType].includes(data));
 
-        try {
-          assert.strictEqual(missingData.length, 0, `Missing ${columnName} entries in JSON output for profile ${profileName}: ${missingData.join(', ')}`);
-        } catch (error) {
-          console.error(error.message);
-          failedAssertions++;
-        }
+        assert.strictEqual(missingData.length, 0, `Missing ${columnName} entries in JSON output for profile ${profileName}: ${missingData.join(', ')}`);
 
         if (missingData.length === 0) {
           console.log(`All ${columnName} entries from the CSV are present in the JSON output for profile ${profileName}.`);
@@ -199,15 +159,11 @@ export async function validateData(jsonFilePath, csvFilePath, profileName, colum
         console.error(`Invalid column name: ${columnName}`);
       }
     });
-
-    if (failedAssertions > 0) {
-      throw new Error(`Failed assertions: ${failedAssertions}`);
-    }
   } catch (error) {
     console.error('Error during validation:', error);
     throw error;
   }
-}
+};
 
 const expectedProfiles = [
   "CREDIT_CARD_N_PERSON",
@@ -235,17 +191,11 @@ export const validateProfiles = async (jsonFilePath, expectedProfiles) => {
 
     const missingProfiles = expectedProfiles.filter(profile => !actualProfiles.includes(profile));
 
-    try {
-      assert.strictEqual(missingProfiles.length, 0, `Missing profiles in JSON data: ${missingProfiles.join(', ')}`);
-    } catch (error) {
-      console.error(error.message);
-      throw error;
-    }
-
     if (missingProfiles.length === 0) {
       console.log('All expected profiles are present in the JSON data:', expectedProfiles);
     } else {
       console.error('Missing profiles in JSON data:', missingProfiles);
+      throw new Error('Missing profiles in JSON data');
     }
   } catch (error) {
     console.error('Error during profile validation:', error);
@@ -276,7 +226,7 @@ const readCsvAndExtractColumn = async (filePath, columnName) => {
 };
 
 // Function to extract and display entities from JSON
-const extractAndDisplayEntities = (data) => {
+function extractAndDisplayEntities(data) {
   const extractedEntities = {
     PERSON: [],
     EMAIL_ADDRESS: [],
@@ -335,13 +285,13 @@ const extractAndDisplayEntities = (data) => {
   });
 
   return extractedEntities;
-};
+}
 
+// Function to read JSON file for entities
 const readJsonFileForEntities = async (filePath) => {
   try {
     const jsonData = await readJsonFileForProfiles(filePath);
-    const extractedEntities = extractAndDisplayEntities(jsonData);
-    return extractedEntities;
+    return extractAndDisplayEntities(jsonData);
   } catch (error) {
     throw new Error(`Error reading JSON file for entities: ${error.message}`);
   }
@@ -354,17 +304,13 @@ export const verifyAgainstJson = async (csvFilePath, jsonFilePath, entityName) =
     const entities = await readJsonFileForEntities(jsonFilePath); // Read JSON file and extract entities
     const entityValues = entities[entityName]; // Extract specific entity values
 
-    if (!entityValues) {
-      throw new Error(`Entity '${entityName}' does not exist in snippet`); // Throw error if entity is not found
-    }
-
     // Determine CSV column name based on entity type
-    const csvColumnName = entityName === 'PERSON'? 'Name' :
-      entityName === 'CREDIT_CARD_NUMBER'? 'Credit Card Number' :
-        entityName === 'BANK_ACCOUNT_NUMBER'? 'Bank Account Number' :
-          entityName === 'EMAIL_ADDRESS'? 'Email Address' :
-            entityName === 'US_SSN'? 'SSN Number' :
-              entityName === 'COUNTRY'? 'Country Name' : '';
+    const csvColumnName = entityName === 'PERSON' ? 'Name' :
+      entityName === 'CREDIT_CARD_NUMBER' ? 'Credit Card Number' :
+        entityName === 'BANK_ACCOUNT_NUMBER' ? 'Bank Account Number' :
+          entityName === 'EMAIL_ADDRESS' ? 'Email Address' :
+            entityName === 'US_SSN' ? 'SSN Number' :
+              entityName === 'COUNTRY' ? 'Country Name' : '';
 
     if (!csvColumnName) {
       throw new Error(`CSV column name not defined for entity ${entityName}`);
@@ -373,19 +319,15 @@ export const verifyAgainstJson = async (csvFilePath, jsonFilePath, entityName) =
     const csvData = await readCsvAndExtractColumn(csvFilePath, csvColumnName); // Read CSV and extract column values
 
     // Compare CSV data against JSON entity values
-    let mismatches;
-    if (entityValues.length === 0) {
-      mismatches = csvData;
-    } else {
-      mismatches = csvData.filter(csvValue =>!entityValues.includes(csvValue));
-    }
+    const mismatches = [];
+    csvData.forEach(csvValue => {
+      if (!entityValues.includes(csvValue)) {
+        mismatches.push(`Mismatch found: ${csvValue} is not present in JSON entities for ${entityName}`);
+      }
+    });
 
-    try {
-      assert.strictEqual(mismatches.length, 0, `Verification failed for ${entityName}: ${mismatches.join(', ')}`);
-    } catch (error) {
-      console.error(error.message);
-      throw error;
-    }
+    // Assertion: Fail test if mismatches are found
+    assert.strictEqual(mismatches.length, 0, `Verification failed for ${entityName}: ${mismatches.join('\n')}`);
 
     // Output verification result (optional)
     console.log(`All ${entityName} values verified successfully against JSON entities.`);
@@ -396,3 +338,4 @@ export const verifyAgainstJson = async (csvFilePath, jsonFilePath, entityName) =
     return false; // Return false to indicate failure
   }
 };
+

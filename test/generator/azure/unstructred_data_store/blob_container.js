@@ -20,9 +20,9 @@ class AzureStorageManager {
         this.subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
         this.resourceGroupName = AZURE_RESOURCE_GROUP_NAME;
         this.location = AZURE_ONBOARD_LOCATION;
-        this.pdfFileData = path.resolve(__dirname, '../../../utils/test_data/sensitive/personal_information.pdf');
+        this.xlsxFileData = path.resolve(__dirname, '../../../utils/test_data/sensitive/personal_information.xlsx');
         this.csvFileData = path.resolve(__dirname, '../../../utils/test_data/sensitive/financial_information.csv');
-        this.zipFileData = path.resolve(__dirname, '../../../utils/test_data/sensitive/employee_information.zip');
+        this.zipFileData = path.resolve(__dirname, '../../../utils/test_data/sensitive/govt_data.zip');
         this.resultFilePath = path.resolve(__dirname, '../../../utils/test_data/blob_container_details.json');
     }
 
@@ -63,7 +63,7 @@ class AzureStorageManager {
         console.log(`Container "${containerName}" created successfully.`);
 
         // Upload files
-        await this.uploadFileToContainer(containerClient, this.pdfFileData);
+        await this.uploadFileToContainer(containerClient, this.xlsxFileData);
         await this.uploadFileToContainer(containerClient, this.csvFileData);
         await this.uploadFileToContainer(containerClient, this.zipFileData);
 

@@ -1,4 +1,4 @@
-PERSON,Credit Card Number,Issued Bank,CVV,Expiry Date,Bank Account Number
+Name,Credit Card Number,Issued Bank,CVV,Expiry Date,Bank Account Number
 Jane Smith,5371735815412763,Bank of America,456,24-Nov,13719713158835300
 Alice Johnson,5194583008478687,American Express,789,26-Oct,71086643758945400
 Bob Brown,5438516843285293,Diners Club,101,23-Sep,53153834006064000

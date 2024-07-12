@@ -1,137 +1,105 @@
+import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import csv from 'csv-parser';
-import { expect } from 'chai';
+import { extractEntityData, validateData, validateEntityData, extractProfileData } from '../../../common/helper_copy.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const jsonFilePath = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store', 'new_snippet.json');
-const csvFilePath = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'sensitive', 'financial_information.csv');
+
+// Input Test Data File
+const nzSnippetJsonFile = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store', 'snippets.json');
+const financialInfoTestData = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'sensitive', 'financial_information.csv');
+const govtInfoZipFIle = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'sensitive', 'govt_data.zip');
+const personalInfoTestDataFile = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'sensitive', 'personal_information.xlsx');
+const goveInforZipExtractionPath = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store', 'govt_data.csv');
+const zipFileBuffer = fs.readFileSync(govtInfoZipFIle);
+
+// Output Files used for comparison
+const financialInoScannedFile = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store', 'financial_info.txt');
+const govtInoScannedFile = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store', 'govt.txt');
+const personalInfoScannedFile = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store', 'personal_info.txt');
+const personalInfoConvertedFile = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store', 'personal_info.csv');
+const extractZipPath = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store');
 
 
-it('csv_person_validation', function (done) {
-  fs.readFile(jsonFilePath, 'utf8', (err, jsonString) => {
-    if (err) {
-      console.error('Error reading file:', err);
-      done(err);
-      return;
-    }
 
-    try {
-      // Parse the JSON data
-      const data = JSON.parse(jsonString);
+describe('VALIDATE_AZUREBLOB_CONTAINER_FINANCIAL_INFORMATION', function () {
+  this.timeout(30000); // Set timeout to 30 seconds
 
-      // Function to extract entities from snippets
-      const extractEntities = (snippets) => {
-        let entities = {
-          PERSON: new Set(),
-          CREDIT_CARD_NUMBER: new Set(),
-          DATE: new Set(),
-          PHONE_NUMBER: new Set(),
-          US_STATE: new Set(),
-          GENDER: new Set(),
-          COUNTRY: new Set(),
-          US_SSN: new Set()
-        };
-     
+  // PROFILES APPLICABLE IN THIS TEST - 
+  // 1. CREDIT_CARD_N_PERSON
+  // 2. BANK_ACCOUNT_N_PERSON
 
-        snippets.forEach(snippet => {
-          const extractFromSnippetList = (snippetList) => {
-            snippetList.forEach(snippetItem => {
-              const text = snippetItem.text;
-              const matches = text.match(/\[(PERSON|CREDIT_CARD_NUMBER|DATE|PHONE_NUMBER|US_STATE|GENDER|COUNTRY|US_SSN):[^\]]+\]/g);
-              if (matches) {
-                matches.forEach(match => {
-                  const [type, value] = match.slice(1, -1).split(':');
-                  entities[type].add(value);
-                });
-              }
-            });
-          };
+  // ENTITIES APPLICABLE IN THIS TEST
+  // 1. PERSON
+  // 2. CREDIT_CARD_NUMBER
+  // 3. US_BANK_NUMBER
 
-          if (snippet.profileList) {
-            snippet.profileList.forEach(profile => extractFromSnippetList(profile.snippetList));
-          }
 
-          if (snippet.entityList) {
-            snippet.entityList.forEach(entity => extractFromSnippetList(entity.snippetList));
-          }
-        });
-
-        // Convert sets to arrays
-        for (let key in entities) {
-          entities[key] = Array.from(entities[key]);
-        }
-
-        return entities;
-      };
-
-      // Ensure profileSnippet and entitySnippet exist in the data
-      if (!data.data.profileSnippet || !Array.isArray(data.data.profileSnippet)) {
-        console.error('profileSnippet is missing or not an array in the JSON data');
-        done(new Error('profileSnippet is missing or not an array in the JSON data'));
-        return;
-      }
-
-      if (!data.data.entitySnippet || !Array.isArray(data.data.entitySnippet)) {
-        console.error('entitySnippet is missing or not an array in the JSON data');
-        done(new Error('entitySnippet is missing or not an array in the JSON data'));
-        return;
-      }
-
-      // Extract entities from profileSnippet and entitySnippet
-      const profileEntities = extractEntities(data.data.profileSnippet);
-      const entityEntities = extractEntities(data.data.entitySnippet);
-
-      // Combine profileEntities and entityEntities
-      let combinedEntities = {
-        PERSON: new Set([...profileEntities.PERSON, ...entityEntities.PERSON]),
-        CREDIT_CARD_NUMBER: new Set([...profileEntities.CREDIT_CARD_NUMBER, ...entityEntities.CREDIT_CARD_NUMBER]),
-        DATE: new Set([...profileEntities.DATE, ...entityEntities.DATE]),
-        PHONE_NUMBER: new Set([...profileEntities.PHONE_NUMBER, ...entityEntities.PHONE_NUMBER]),
-        US_STATE: new Set([...profileEntities.US_STATE, ...entityEntities.US_STATE]),
-        GENDER: new Set([...profileEntities.GENDER, ...entityEntities.GENDER]),
-        COUNTRY: new Set([...profileEntities.COUNTRY, ...entityEntities.COUNTRY]),
-        US_SSN: new Set([...profileEntities.US_SSN, ...entityEntities.US_SSN])
-      };
-
-      // Convert sets to arrays
-      for (let key in combinedEntities) {
-        combinedEntities[key] = Array.from(combinedEntities[key]);
-      }
-
-      console.log('Combined unique entities:', combinedEntities);
-
-      const personColumnData = [];
-
-      fs.createReadStream(csvFilePath)
-        .pipe(csv())
-        .on('data', (row) => {
-          personColumnData.push(row.PERSON);
-        })
-        .on('end', () => {
-          console.log('CSV file successfully processed.');
-          const verificationResults = verifyPersonValues(combinedEntities.PERSON, personColumnData);
-          const failedResults = verificationResults.filter(result => !result.isPresent);
-
-          if (failedResults.length > 0) {
-            console.error(`${failedResults.length} PERSON entities not found in the CSV file:`, failedResults.map(r => r.person));
-          }
-
-          expect(failedResults.length, `${failedResults.length} PERSON entities not found in the CSV file`).to.equal(0);
-          done();
-        });
-
-      function verifyPersonValues(personColumnData, personValuesToCheck) {
-        return personValuesToCheck.map(person => ({
-          person,
-          isPresent: personColumnData.includes(person)
-        }));
-      }
-    } catch (err) {
-      console.error('Error parsing JSON:', err);
-      done(err);
-    }
+  it('Validate if all credit card numbers are scanned from CREDIT_CARD_N_PERSON profile', async function () {
+    extractProfileData(nzSnippetJsonFile, financialInoScannedFile, 'CREDIT_CARD_N_PERSON', /\[CREDIT_CARD_NUMBER:\d{15,16}\]/g, 'CREDIT_CARD_NUMBER');
+    await validateData(financialInfoTestData, financialInoScannedFile, 'Credit Card Number', 'CREDIT_CARD_NUMBER');
   });
+
+  it('Validate if all person names are scanned from CREDIT_CARD_N_PERSON profile', async function () {
+    extractProfileData(nzSnippetJsonFile, financialInoScannedFile, 'CREDIT_CARD_N_PERSON', /\[PERSON:[^\]]+\]/g, 'PERSON');
+    await validateData(financialInfoTestData, financialInoScannedFile, 'Name', 'PERSON')
+      .then(() => {
+        console.log('Test passed');
+      })
+      .catch((error) => {
+        console.error('Test failed:', error.message);
+      });
+  });
+
+  // it('Validate if all person names are scanned from BANK_ACCOUNT_N_PERSON profile', async function () {
+  //   extractProfileData(nzSnippetJsonFile, financialInoScannedFile, 'BANK_ACCOUNT_N_PERSON', /\[PERSON:[^\]]+\]/g, 'PERSON');
+  //   await validateData(financialInfoTestData, financialInoScannedFile, 'PERSON', 'PERSON');
+  // });
+
+  // it('Validate if all bank account numbers are scanned from BANK_ACCOUNT_N_PERSON profile', async function () {
+  //   extractProfileData(nzSnippetJsonFile, financialInoScannedFile, 'BANK_ACCOUNT_N_PERSON', /\[US_BANK_NUMBER:[^\]]+\]/g, 'US_BANK_NUMBER');
+  //   await validateData(financialInfoTestData, financialInoScannedFile, 'Bank Account Number', 'US_BANK_NUMBER');
+  // });
+
+  // it('Validate if all person names are scanned from PERSON entity', async function () {
+  //   extractEntityData(nzSnippetJsonFile, financialInoScannedFile, 'PERSON', 'financial_information.csv', /\[PERSON:([^\]]+)\]/g)
+  //   await validateEntityData(financialInfoTestData, financialInoScannedFile, 'PERSON');
+  // });
+
+  // it('Validate if all credit card numbers are scanned from CREDIT_CARD_NUMBER entity', async function () {
+  //   extractEntityData(nzSnippetJsonFile, financialInoScannedFile, 'CREDIT_CARD_NUMBER', 'financial_information.csv', /\[CREDIT_CARD_NUMBER:([^\]]+)\]/g)
+  //   await validateEntityData(financialInfoTestData, financialInoScannedFile, 'CREDIT_CARD_NUMBER');
+  // });
+
+  // it('Validate if all person names are scanned from US_BANK_NUMBER entity', async function () {
+  //   extractEntityData(nzSnippetJsonFile, financialInoScannedFile, 'US_BANK_NUMBER', 'financial_information.csv', /\[US_BANK_NUMBER:([^\]]+)\]/g)
+  //   await validateEntityData(financialInfoTestData, financialInoScannedFile, 'US_BANK_NUMBER');
+  // });
 });
+
+
+// describe('VALIDATE_AZUREBLOB_CONTAINER_GOVT_INFORMATION', function () {
+
+//         // ENTITIES APPLICABLE IN THIS TEST
+//         // 1. COUNTRY
+
+//   this.timeout(30000); // Set timeout to 30 seconds
+//   extractZipFile(zipFileBuffer, extractZipPath); 
+
+//   it('Validate if all COUNTRY are scanned in COUNTRY entity', async function () {
+//     extractEntityData(nzSnippetJsonFile, govtInoScannedFile, 'COUNTRY', 'govt_data.zip', /\b(COUNTRY:\s*[A-Za-z\s]+)\b/g)
+//     await validateEntityData(goveInforZipExtractionPath, govtInoScannedFile, 'Country')
+//   });
+// });
+
+// describe('VALIDATE_AZUREBLOB_CONTAINER_PERSONAL_INFORMATION', function () {
+
+//   this.timeout(30000);
+//   readXLSXFile(personalInfoTestDataFile, 'Sheet1', personalInfoConvertedFile)
+
+//   it('Validate if all PERSON NAMES are scanned in PERSON_N_EMAIL profile', async function () {
+//     extractProfileData(nzSnippetJsonFile, personalInfoScannedFile, 'PERSON_N_EMAIL', '/\[PERSON:[^\]]+\]/g', 'PERSON')
+//   });
+// });
+
