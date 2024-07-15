@@ -1,31 +1,50 @@
-const { ClientSecretCredential } = require('@azure/identity');
-const { StorageManagementClient } = require('@azure/arm-storage');
-const fs = require('fs');
-const path = require('path');
-const {
-    AZURE_SUBSCRIPTION_ID,
-    AZURE_TENANT_ID,
-    AZURE_SERVICE_PRINCIPAL_ID,
-    AZURE_CLIENT_SECRET,
-    AZURE_RESOURCE_GROUP_NAME
-} = require('../../common/azureLibs/constants');
+// delete_blob_container.js
 
-// Function to delete a storage account
-async function deleteStorageAccount(filePath) {
-  // Load the JSON file
-  const rawData = fs.readFileSync(filePath);
-  const details = JSON.parse(rawData);
+import * as fs from 'fs';
+import * as path from 'path';
+import { ClientSecretCredential } from '@azure/identity';
+import { StorageManagementClient } from '@azure/arm-storage';
+import { authenticateAzure } from '../../common/helper.js';
+import { AZURE_RESOURCE_GROUP_NAME, AZURE_ONBOARD_LOCATION } from '../../common/azureLibs/constants.js';
+import { getJsonFile } from '../../../api/common/helper.js';
 
-  const subscriptionId = AZURE_SUBSCRIPTION_ID;
-  const resourceGroupName = AZURE_RESOURCE_GROUP_NAME;
-  const clientId = AZURE_SERVICE_PRINCIPAL_ID;
-  const clientSecret = AZURE_CLIENT_SECRET;
-  const tenantId = AZURE_TENANT_ID;
-  const storageAccountName = details.storageAccountName;
+class DeleteBlobContainer {
+  constructor(filePath) {
+    this.filePath = filePath;
+    this.subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
+    this.resourceGroupName = AZURE_RESOURCE_GROUP_NAME;
+    this.location = AZURE_ONBOARD_LOCATION;    
+  }
 
-  const credentials = new ClientSecretCredential(tenantId, clientId, clientSecret);
-  const storageManagementClient = new StorageManagementClient(credentials, subscriptionId);
-  await storageManagementClient.storageAccounts.delete(resourceGroupName, storageAccountName);
+  async init() {
+    const credentials = new ClientSecretCredential(process.env.AZURE_TENANT_ID, process.env.AZURE_SERVICE_PRINCIPAL_ID, process.env.AZURE_CLIENT_SECRET);
+    this.storageManagementClient = new StorageManagementClient(credentials, this.subscriptionId);
+    await this.authenticate();
+  }
+
+  async authenticate() {
+    try {
+      this.credentials = await authenticateAzure();
+    } catch (error) {
+      console.error('Failed to authenticate Azure:', error);
+      throw error;
+    }
+  }
+
+  async deleteStorageAccount() {
+    try {
+      await this.init();
+
+      // Load the JSON file
+      const resource = await getJsonFile(this.filePath);
+      const storageAccountName = resource.storageAccountName;
+      await this.storageManagementClient.storageAccounts.delete(this.resourceGroupName, storageAccountName);
+      console.log(`Successfully deleted storage account ${storageAccountName}`);
+    } catch (error) {
+      console.error('Failed to delete storage account:', error.message);
+      throw error;
+    }
+  }
 }
 
-module.exports = { deleteStorageAccount };
+export { DeleteBlobContainer };

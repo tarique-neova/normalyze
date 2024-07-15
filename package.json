@@ -11,8 +11,7 @@
     "create_blob_container": "mocha --no-deprecation test/generator/azure/unstructred_data_store/blob_container.js",
     "create_sql_server": "mocha --no-deprecation test/generator/azure/structured_data_store/sql_server.js",
     "azure_e2e": "mocha --no-deprecation test/validator/azure/unstructured_data_store/test_azureblob_container_scheduler.js",
-    "format_json": "mocha --no-deprecation test/validator/azure/unstructured_data_store/format_json.js",
-    "blob_storage_test": "mocha --no-deprecation test/validator/azure/unstructured_data_store/test.js"
+    "blob_storage_test": "mocha --no-deprecation test/validator/azure/unstructured_data_store/test_azure_blob_container.js"
   },
   "keywords": [
     "test",

@@ -76,8 +76,8 @@ class AzureStorageManager {
         };
 
         // Write result to JSON file
-        // fs.writeFileSync(this.resultFilePath, JSON.stringify(result, null, 2));
-        // console.log(`Storage account details saved to ${this.resultFilePath}`);
+        fs.writeFileSync(this.resultFilePath, JSON.stringify(result, null, 2));
+        console.log(`Storage account details saved to ${this.resultFilePath}`);
 
         return result;
     }
