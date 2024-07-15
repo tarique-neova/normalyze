@@ -100,10 +100,10 @@ export async function doLoginWithTeamId() {
   return session.authToken;
 }
 
-export async function createScheduler(dataStoreType, containerName, schedulerName, currentTimestamp, currentUser) {
+export async function createScheduler(dataStoreType, dataStoreName, schedulerName, currentTimestamp, currentUser) {
   const token = await doLoginWithTeamId();
   const url = `${NORMALYZE_BASE_URL}/status/api/scanprofiles`;
-  const data = requestBody(schedulerName, containerName, dataStoreType, currentTimestamp, currentUser);
+  const data = requestBody(schedulerName, dataStoreName, dataStoreType, currentTimestamp, currentUser);
   const headers = {
     'Authorization': token,
   };

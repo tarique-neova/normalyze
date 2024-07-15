@@ -1,9 +1,9 @@
-export const requestBody = (schedulerName, containerName, dataStoreType, currentTimestamp, currentUser) => {
+export const requestBody = (schedulerName, dataStoreName, dataStoreType, currentTimestamp, currentUser) => {
     return {
       "name": schedulerName,
       "description": "Test Automation Scan Scheduler",
-      "dataStoreTags": [containerName, dataStoreType],
-      "dataStoreNames": [containerName],
+      "dataStoreTags": [dataStoreName, dataStoreType],
+      "dataStoreNames": [dataStoreName],
       "dataStoreUsers": [],
       "scanType": "SCAN-SELECTED",
       "dataStoreType": dataStoreType,
