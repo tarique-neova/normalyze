@@ -8,25 +8,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const jsonFilePath = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store', 'snippets_data.json');
-const csvFilePath = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'sensitive', 'financial_information.csv');
+const inputDataFile = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'sensitive', 'financial_information.csv');
 const personalInfoFilePath = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'sensitive', 'personal_information.xlsx');
 const govtInfoZipFIle = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'sensitive', 'govt_data.zip');
 const goveInforZipExtractionPath = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store', 'govt_data.csv');
 const zipFileBuffer = fs.readFileSync(govtInfoZipFIle);
 const extractZipPath = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store');
 const storageAccountDetails = path.join(__dirname, '..', '..', '..', 'utils', 'test_data', 'blob_container_details.json');
-
 const financialInfoProfileNames = [
   'CREDIT_CARD_N_PERSON',
   'BANK_ACCOUNT_N_PERSON'
 ];
-
-const financialInfoEntity = [
-  'CREDIT_CARD_NUMBER',
-  'PERSON',
-  'BANK_ACCOUNT_NUMBER'
-];
-
 const perosnalInfoProfileNames = [
   'PERSON_N_SSN',
   'PERSON_N_EMAIL',
@@ -34,45 +26,57 @@ const perosnalInfoProfileNames = [
   'PERSON_N_PHONE_NUMBER'
 ];
 
+
+/*
+This test validates the profile data and entity data for Financial Information Test Data
+actual data = input test data
+expected data = json snippet data
+
+ * @param {string} jsonFilePath
+ * @param {number} financialInfoProfileNames
+ * @param {number}  inputDataFile
+*/
 describe('VALIDATE_AZUREBLOB_CONTAINER_FINANCIAL_INFORMATION_PROFILES_TEST', function () {
   this.timeout(30000);
 
-  // PROFILES APPLICABLE IN THIS TEST - 
-  // 1. CREDIT_CARD_N_PERSON
-  // 2. BANK_ACCOUNT_N_PERSON
+  /*
+  PROFILES APPLICABLE IN THIS TEST - 
+   1. CREDIT_CARD_N_PERSON
+   2. BANK_ACCOUNT_N_PERSON
 
-  // ENTITIES APPLICABLE IN THIS TEST
-  // 1. PERSON
-  // 2. CREDIT_CARD_NUMBER
-  // 3. US_BANK_NUMBER
+  ENTITIES APPLICABLE IN THIS TEST
+  1. PERSON
+  2. CREDIT_CARD_NUMBER
+  3. US_BANK_NUMBER
+  */
 
   it('Validate if all profile Names are scanned from JSON file', async function () {
     await validateProfiles(jsonFilePath, financialInfoProfileNames);
   });
 
   it('Validate if all credit card numbers are scanned from CREDIT_CARD_N_PERSON profile', async function () {
-    await validateProfileData(jsonFilePath, csvFilePath, 'CREDIT_CARD_N_PERSON', ['Credit Card Number']);
+    await validateProfileData(jsonFilePath, inputDataFile, 'CREDIT_CARD_N_PERSON', ['Credit Card Number']);
   });
 
   it('Validate if all PERSON NAMES are scanned from CREDIT_CARD_N_PERSON profile', async function () {
-    await validateProfileData(jsonFilePath, csvFilePath, 'CREDIT_CARD_N_PERSON', ['Name']);
+    await validateProfileData(jsonFilePath, inputDataFile, 'CREDIT_CARD_N_PERSON', ['Name']);
   });
 
   it('Validate if all PERSON NAMES are scanned from BANK_ACCOUNT_N_PERSON profile', async function () {
-    await validateProfileData(jsonFilePath, csvFilePath, 'BANK_ACCOUNT_N_PERSON', ['Name']);
+    await validateProfileData(jsonFilePath, inputDataFile, 'BANK_ACCOUNT_N_PERSON', ['Name']);
   });
 
   it('Validate if all Bank Account Numbers are scanned from BANK_ACCOUNT_N_PERSON profile', async function () {
-    await validateProfileData(jsonFilePath, csvFilePath, 'BANK_ACCOUNT_N_PERSON', ['Bank Account Number']);
+    await validateProfileData(jsonFilePath, inputDataFile, 'BANK_ACCOUNT_N_PERSON', ['Bank Account Number']);
   });
 
   it('Validate if all credit card numbers are scanned from CREDIT_CARD_NUMBER entity', async function () {
-    await validateEntityData(csvFilePath, jsonFilePath, 'CREDIT_CARD_NUMBER');
+    await validateEntityData(inputDataFile, jsonFilePath, 'CREDIT_CARD_NUMBER');
   });
 
   it('Validate if all Bank Account Numbers are scanned from BANK_ACCOUNT_NUMBER entity', async function () {
     try {
-      const result = await validateEntityData(csvFilePath, jsonFilePath, 'BANK_ACCOUNT_NUMBER');
+      const result = await validateEntityData(inputDataFile, jsonFilePath, 'BANK_ACCOUNT_NUMBER');
       assert.strictEqual(result, true);
     } catch (error) {
       assert.strictEqual(error.message, `Entity 'BANK_ACCOUNT_NUMBER' does not exist in JSON data`);
@@ -81,7 +85,7 @@ describe('VALIDATE_AZUREBLOB_CONTAINER_FINANCIAL_INFORMATION_PROFILES_TEST', fun
 
   it('Validate if all PERSON names are scanned from PERSON entity', async function () {
     try {
-      const result = await validateEntityData(csvFilePath, jsonFilePath, 'PERSON');
+      const result = await validateEntityData(inputDataFile, jsonFilePath, 'PERSON');
       assert.strictEqual(result, true);
     } catch (error) {
       assert.strictEqual(error.message, `Data missing for 'PERSON' entity in json snippet`);
@@ -89,6 +93,16 @@ describe('VALIDATE_AZUREBLOB_CONTAINER_FINANCIAL_INFORMATION_PROFILES_TEST', fun
 
   });
 });
+
+/*
+This test validates the profile data and entity data for Personal Information Test Data
+actual data = input test data
+expected data = json snippet data
+
+ * @param {string} jsonFilePath
+ * @param {number} perosnalInfoProfileNames
+ * @param {number}  outputPath
+*/
 
 describe('VALIDATE_AZUREBLOB_CONTAINER_PERSONAL_INFORMATION_PROFILES_TEST', function () {
   this.timeout(30000);
@@ -146,6 +160,14 @@ describe('VALIDATE_AZUREBLOB_CONTAINER_PERSONAL_INFORMATION_PROFILES_TEST', func
   });
 });
 
+/*
+This test validates the profile data and entity data for Government Information Test Data
+actual data = input test data
+expected data = json snippet data
+
+ * @param {string} jsonFilePath
+ * @param {number} goveInforZipExtractionPath
+*/
 
 describe('VALIDATE_AZUREBLOB_CONTAINER_GOVT_INFORMATION', function () {
 
@@ -165,6 +187,9 @@ describe('VALIDATE_AZUREBLOB_CONTAINER_GOVT_INFORMATION', function () {
   });
 });
 
+/*
+Once all tests are executed, this wil delete the storage container with blob container from respective azure account
+*/
 
 describe('DELETE STORAGE ACCOUNT', function () {
   this.timeout(80000);
