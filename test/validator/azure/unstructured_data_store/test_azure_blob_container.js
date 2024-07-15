@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import assert from 'assert';
-import { DeleteBlobContainer } from '../../../cleanup/azure/delete_blob_container.js';
+import { DeleteStorageAccount } from '../../../cleanup/azure/delete_blob_container.js';
 import { validateEntityData, validateProfileData, validateProfiles, convertXlsxToCsv, extractZipFile } from '../../../common/helper.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -194,7 +194,7 @@ Once all tests are executed, this wil delete the storage container with blob con
 describe('DELETE STORAGE ACCOUNT', function () {
   this.timeout(80000);
   it('Delete storage account after execution is completed', async function () {
-    const deleteBlobContainer = new DeleteBlobContainer(storageAccountDetails);
-    await deleteBlobContainer.deleteStorageAccount();
+    const deleteStorageAccount = new DeleteStorageAccount(storageAccountDetails);
+    await deleteStorageAccount.deleteStorageAccount();
   });
 });

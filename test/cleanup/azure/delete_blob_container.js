@@ -8,7 +8,7 @@ import { authenticateAzure } from '../../common/helper.js';
 import { AZURE_RESOURCE_GROUP_NAME, AZURE_ONBOARD_LOCATION } from '../../common/azureLibs/constants.js';
 import { getJsonFile } from '../../../api/common/helper.js';
 
-class DeleteBlobContainer {
+class DeleteStorageAccount {
   constructor(filePath) {
     this.filePath = filePath;
     this.subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
@@ -47,4 +47,4 @@ class DeleteBlobContainer {
   }
 }
 
-export { DeleteBlobContainer };
+export { DeleteStorageAccount };
