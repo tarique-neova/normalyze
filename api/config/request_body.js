@@ -1,3 +1,9 @@
+/*
+@author - Tarique Salat
+
+This is common request body which will be used to create scan scheduler for azure blob container and sql server
+*/
+
 export const requestBody = (schedulerName, dataStoreName, dataStoreType, currentTimestamp, currentUser) => {
     return {
       "name": schedulerName,
