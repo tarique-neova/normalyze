@@ -21,7 +21,7 @@ export const requestBody = (schedulerName, dataStoreName, dataStoreType, current
       "isCloudTrailBased": false,
       "scanFrequencyInHours": 1,
       "scanAtTime": null,
-      "incrementalScanEnabled": true,
+      "incrementalScanEnabled": false,
       "createdBy": currentUser,
       "cloudAccountScanType": "ALL",
       "cloudAccounts": [],
