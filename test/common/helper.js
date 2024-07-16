@@ -113,7 +113,7 @@ export async function extractZipFile(zipFileBuffer, dir) {
  * @param {string} filePath
  * @returns {Promise<object[]>}
  */
-const readCsvFile = (filePath) => {
+const readInputTestData = (filePath) => {
   return new Promise((resolve, reject) => {
     const results = [];
 
@@ -208,14 +208,14 @@ const extractProfilesFromSnippet = (jsonData) => {
 export async function validateProfileData(jsonFilePath, testDataFilePath, expectedProfileName, actualProfileNames) {
   try {
     const jsonData = await readJsonFile(jsonFilePath);
-    const csvData = await readCsvFile(testDataFilePath);
+    const actualData = await readInputTestData(testDataFilePath);
 
     const { entities } = extractProfilesFromSnippet(jsonData);
 
     let failedAssertions = 0;
 
     actualProfileNames.forEach((actualProfileName) => {
-      const csvColumnData = csvData.map((row) => row[actualProfileName]);
+      const profileData = actualData.map((row) => row[actualProfileName]);
 
       let entityType;
       switch (actualProfileName) {
@@ -242,7 +242,7 @@ export async function validateProfileData(jsonFilePath, testDataFilePath, expect
           return;
       }
 
-      const missingData = csvColumnData.filter((data) => !entities[entityType].includes(data));
+      const missingData = profileData.filter((data) => !entities[entityType].includes(data));
 
       try {
         assert.strictEqual(missingData.length, 0, `Missing ${actualProfileName} entries in JSON output for profile ${expectedProfileName}: ${missingData.join(', ')}`);
@@ -343,7 +343,7 @@ const readTestDataAndExtractActualEntity = async (filePath, actualEntityName) =>
         resolve(columnValues);
       })
       .on('error', (err) => {
-        reject(`Error reading CSV file: ${err.message}`);
+        reject(`Error reading test data file: ${err.message}`);
       });
   });
 };
@@ -442,7 +442,7 @@ export const validateEntityData = async (testDataFilePath, jsonFilePath, entityN
 
     const actualEntity = mapActualAndExpectedEntities(entityName);
     if (!actualEntity) {
-      throw new Error(`CSV column name not defined for entity '${entityName}`);
+      throw new Error(`Actual Entity not defined for entity '${entityName}`);
     }
 
     const inputData = await readTestDataAndExtractActualEntity(testDataFilePath, actualEntity);
@@ -451,12 +451,12 @@ export const validateEntityData = async (testDataFilePath, jsonFilePath, entityN
     const extraValues = inputData.filter(value => !entityValues.includes(value));
 
     if (missingValues.length > 0 || extraValues.length > 0) {
-      const errorMessage = `Verification failed for ${entityName}: Missing values - ${missingValues.join(', ')}, Extra values - ${extraValues.join(', ')}`;
+      const errorMessage = `Verification failed for ${entityName}: Missing values - ${extraValues.join(', ')}`;
       console.error(errorMessage);
       throw new Error(errorMessage);
     }
 
-    console.log(`All ${entityName} values verified successfully against JSON entities.`);
+    console.log(`All ${entityName} values verified successfully against JSON snippet entities.`);
 
     return true;
   } catch (error) {
