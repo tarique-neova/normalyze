@@ -149,7 +149,7 @@ export function convertXlsxToCsv(inputFilePath) {
  * @param {object} jsonData
  * @returns {object} An object containing profiles and entities
  */
-const extractProfilesAndEntities = (jsonData) => {
+const extractProfilesFromSnippet = (jsonData) => {
   // Ensure profileSnippet is an array
   jsonData.profileSnippet = Array.isArray(jsonData.profileSnippet) ? jsonData.profileSnippet : [jsonData.profileSnippet];
 
@@ -210,7 +210,7 @@ export async function validateProfileData(jsonFilePath, testDataFilePath, expect
     const jsonData = await readJsonFile(jsonFilePath);
     const csvData = await readCsvFile(testDataFilePath);
 
-    const { entities } = extractProfilesAndEntities(jsonData);
+    const { entities } = extractProfilesFromSnippet(jsonData);
 
     let failedAssertions = 0;
 
@@ -323,12 +323,12 @@ export const validateProfiles = async (jsonFilePath, expectedProfiles) => {
 };
 
 /**
- * Reads a CSV file and extracts a specific column
+ * Reads a input file file and extracts a actual data
  * @param {string} filePath
  * @param {string} actualEntityName
  * @returns {Promise<string[]>}
  */
-const readCsvAndExtractActualEntity = async (filePath, actualEntityName) => {
+const readTestDataAndExtractActualEntity = async (filePath, actualEntityName) => {
   const columnValues = [];
   const absoluteFilePath = path.resolve(__dirname, filePath); // Resolve absolute path
   return new Promise((resolve, reject) => {
@@ -353,7 +353,7 @@ const readCsvAndExtractActualEntity = async (filePath, actualEntityName) => {
  * @param {object} data
  * @returns {object}
  */
-const extractAndDisplayEntities = (data) => {
+const extractEntitiesFromSnippet = (data) => {
   const extractedEntities = {
     PERSON: [],
     EMAIL_ADDRESS: [],
@@ -417,7 +417,7 @@ const extractAndDisplayEntities = (data) => {
 const readJsonFileForEntities = async (filePath) => {
   try {
     const jsonData = await readJsonFile(filePath);
-    const extractedEntities = extractAndDisplayEntities(jsonData);
+    const extractedEntities = extractEntitiesFromSnippet(jsonData);
     return extractedEntities;
   } catch (error) {
     throw new Error(`Error reading JSON file for entities: ${error.message}`);
@@ -445,7 +445,7 @@ export const validateEntityData = async (testDataFilePath, jsonFilePath, entityN
       throw new Error(`CSV column name not defined for entity '${entityName}`);
     }
 
-    const inputData = await readCsvAndExtractActualEntity(testDataFilePath, actualEntity);
+    const inputData = await readTestDataAndExtractActualEntity(testDataFilePath, actualEntity);
 
     const missingValues = entityValues.filter(value => !inputData.includes(value));
     const extraValues = inputData.filter(value => !entityValues.includes(value));
@@ -512,7 +512,7 @@ const mapActualAndExpectedEntities = (entityName) => {
 //       throw new Error(`CSV column name not defined for entity ${entityName}`);
 //     }
 
-//     const csvData = await readCsvAndExtractActualEntity(testDataFilePath, csvColumnName); // Read CSV and extract column values
+//     const csvData = await readTestDataAndExtractActualEntity(testDataFilePath, csvColumnName); // Read CSV and extract column values
 
 //     // Compare CSV data against JSON entity values
 //     let mismatches;

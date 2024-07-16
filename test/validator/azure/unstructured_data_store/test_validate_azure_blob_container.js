@@ -192,14 +192,14 @@ describe('VALIDATE_AZUREBLOB_CONTAINER_GOVT_INFORMATION', function () {
 /*
 After all tests are executed, this suite deletes the Azure storage account.
 */
-describe('DELETE STORAGE ACCOUNT', function () {
-  this.timeout(80000);
+// describe('DELETE STORAGE ACCOUNT', function () {
+//   this.timeout(80000);
 
-  it('Delete storage account after test execution', async function () {
-    const deleteStorageAccount = new DeleteStorageAccount(storageAccountDetails);
-    await deleteStorageAccount.deleteStorageAccount();
-  });
-});
+//   it('Delete storage account after test execution', async function () {
+//     const deleteStorageAccount = new DeleteStorageAccount(storageAccountDetails);
+//     await deleteStorageAccount.deleteStorageAccount();
+//   });
+// });
 
 /*
 After all tests are executed, this suite deletes the Azure SQL server.
