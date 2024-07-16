@@ -1,3 +1,9 @@
+/*
+@author - Tarique Salat
+This is common class which acts as a helper for test automation.
+This has all the common methods which needs to be used in respective tests.
+*/
+
 import fs from 'fs';
 import path from 'path';
 import { ClientSecretCredential } from '@azure/identity';

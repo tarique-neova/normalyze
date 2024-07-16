@@ -1,17 +1,26 @@
+/*
+  @author - Yogita Mahajan
+
+  This is the common class which acts as a helper for triggering Normalyze APIs.
+*/
+
 import axios from 'axios';
 import fs from 'fs';
 import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { requestBody } from '../config/request_body.js';
 
+// List of all constants to be used
 const NORMALYZE_BASE_URL = 'https://api3.normalyze.link';
 const JWT_SECRET = "yourSigningSecret";
 const jwt = jsonwebtoken;
-
-await dotenv.config({ path: './.env' });
 const NORMALYZE_ACCOUNT_USERNAME = process.env.NORMALYZE_ACCOUNT_USERNAME;
 const NORMALYZE_ACCOUNT_PASSWORD = process.env.NORMALYZE_ACCOUNT_PASSWORD;
 
+// Load environment variables from the .env file
+await dotenv.config({ path: './.env' });
+
+// Function to read and parse a JSON file
 export async function getJsonFile(filePath) {
   try {
     const rawData = await fs.promises.readFile(filePath, 'utf-8');
@@ -23,6 +32,7 @@ export async function getJsonFile(filePath) {
   }
 }
 
+// Function to log in and retrieve an authentication token
 export async function doLogin(email, password, session, configService) {
   const url = `${configService}/api/login`;
   const data = { email, password };
@@ -40,10 +50,12 @@ export async function doLogin(email, password, session, configService) {
   }
 }
 
+// Function to generate an initial JWT token with specific permissions
 export async function generateJwtInitialToken(userLogin, session, nzRole = "Admin") {
   userLogin = {
     "https://normalyze/version": 3,
     "https://normalyze/permissions": {
+      // List of permissions for different entities
       teams: ["list", "get", "create", "destroy", "destroyAll", "update", "replace"],
       accounts: ["list", "get", "create", "destroy", "destroyAll", "update", "replace"],
       datastores: ["list", "get", "create", "destroy", "destroyAll", "update", "replace"],
@@ -82,6 +94,7 @@ export async function generateJwtInitialToken(userLogin, session, nzRole = "Admi
   session.authToken = "Bearer " + token;
 }
 
+// Function to log in with team ID and retrieve an authentication token
 export async function doLoginWithTeamId() {
   const DP_AUTO_USER_EMAIL_ID = NORMALYZE_ACCOUNT_USERNAME;
   const uiLoginPassword = NORMALYZE_ACCOUNT_PASSWORD;
@@ -100,10 +113,11 @@ export async function doLoginWithTeamId() {
   return session.authToken;
 }
 
-export async function createScheduler(dataStoreType, dataStoreName, schedulerName, currentTimestamp, currentUser) {
+// Function to create a new scheduler
+export async function createScheduler(dataStoreType, containerName, schedulerName, currentTimestamp, currentUser) {
   const token = await doLoginWithTeamId();
   const url = `${NORMALYZE_BASE_URL}/status/api/scanprofiles`;
-  const data = requestBody(schedulerName, dataStoreName, dataStoreType, currentTimestamp, currentUser);
+  const data = requestBody(schedulerName, containerName, dataStoreType, currentTimestamp, currentUser);
   const headers = {
     'Authorization': token,
   };
@@ -111,6 +125,7 @@ export async function createScheduler(dataStoreType, dataStoreName, schedulerNam
   return response.data.id;
 }
 
+// Function to get all schedulers
 export async function getAllSchedulers() {
   const token = await doLoginWithTeamId();
   const response = await axios.get(`${NORMALYZE_BASE_URL}/status/api/scanprofiles`, {
@@ -121,9 +136,9 @@ export async function getAllSchedulers() {
   return response.data.data;
 }
 
+// Function to run a specific scheduler
 export async function runScheduler(schedulerId) {
   const token = await doLoginWithTeamId();
-
   const baseUrl = `${NORMALYZE_BASE_URL}/status/api/v2/scanprofiles/`;
   const url = baseUrl + schedulerId + '/run';
   const data = {};
@@ -135,6 +150,7 @@ export async function runScheduler(schedulerId) {
   return response.data.id;
 }
 
+// Function to check the status of a data scan and retrieve snippet data
 export async function checkStatus(dataStoreType, dataStoreName, dataStoreId, region, workflowId) {
   async function triggerSnippetAPI() {
     const snippetsData = await getSnippets(dataStoreType, dataStoreName, dataStoreId, region);
@@ -143,6 +159,7 @@ export async function checkStatus(dataStoreType, dataStoreName, dataStoreId, reg
     }
     return snippetsData;
   }
+
   async function checkStatus(maxRetries = 5) {
     let retryCount = 0;
     async function executeCheck() {
@@ -154,7 +171,6 @@ export async function checkStatus(dataStoreType, dataStoreName, dataStoreId, reg
         const response = await axios.get(url, {
           headers: {
             'Authorization': token,
-            'Origin': 'https://webui.normalyze.link',
           }
         });
         if (response.status !== 200) {
@@ -207,11 +223,11 @@ export async function checkStatus(dataStoreType, dataStoreName, dataStoreId, reg
     }
     return await executeCheck();
   }
+
   return await checkStatus();
 }
 
-
-
+// Function to get snippets data
 async function getSnippets(dataStoreType, dataStoreName, dataStoreId, region) {
   try {
     const token = await doLoginWithTeamId();

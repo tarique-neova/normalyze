@@ -1,3 +1,11 @@
+/*
+@author - Tarique Salat
+This class does the following - 
+1. Creates storage account in azure
+2. Creates blob container inside respective storage account
+3. Uploads the test data files to the blob container
+*/
+
 import { StorageManagementClient } from '@azure/arm-storage';
 import { BlobServiceClient } from '@azure/storage-blob';
 import path from 'path';
@@ -10,8 +18,8 @@ import {
     AZURE_RESOURCE_GROUP_NAME
 } from '../../../common/azureLibs/constants.js';
 
-
 await dotenv.config({ path: './.env' });
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -20,14 +28,18 @@ class AzureStorageManager {
         this.subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
         this.resourceGroupName = AZURE_RESOURCE_GROUP_NAME;
         this.location = AZURE_ONBOARD_LOCATION;
+        // Paths to test data files
         this.xlsxFileData = path.resolve(__dirname, '../../../utils/test_data/sensitive/personal_information.xlsx');
         this.csvFileData = path.resolve(__dirname, '../../../utils/test_data/sensitive/financial_information.csv');
         this.zipFileData = path.resolve(__dirname, '../../../utils/test_data/sensitive/govt_data.zip');
+        // Path to store blob container details
         this.resultFilePath = path.resolve(__dirname, '../../../utils/test_data/blob_container_details.json');
     }
 
     async init() {
+        // Authenticate with Azure
         this.credentials = await authenticateAzure();
+        // Initialize Azure Storage Management Client
         this.storageManagementClient = new StorageManagementClient(this.credentials, this.subscriptionId);
     }
 
@@ -46,7 +58,6 @@ class AzureStorageManager {
             randomName,
             storageAccountParams
         );
-        // const storageAccount = await createResponse.pollUntilFinished();
         console.log(`Storage account "${randomName}" created successfully.`);
 
         // Get the storage account key
@@ -62,11 +73,12 @@ class AzureStorageManager {
         await containerClient.create();
         console.log(`Container "${containerName}" created successfully.`);
 
-        // Upload files
+        // Upload files to the container
         await this.uploadFileToContainer(containerClient, this.xlsxFileData);
         await this.uploadFileToContainer(containerClient, this.csvFileData);
         await this.uploadFileToContainer(containerClient, this.zipFileData);
 
+        // Construct result object with storage account and container details
         const result = {
             storageAccountName: randomName,  // Use the randomName as storageAccountName
             storageAccountId: storageAccount.id,  // Fetch the correct storage account ID

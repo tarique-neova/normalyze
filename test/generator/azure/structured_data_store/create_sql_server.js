@@ -1,3 +1,11 @@
+/*
+@author - Tarique Salat
+This class does the following - 
+1. Creates sql server in azure
+2. Creates sql database inside the respective sql server
+3. Uploads the test data to the sql database
+*/
+
 import { ClientSecretCredential } from "@azure/identity";
 import { SqlManagementClient } from "@azure/arm-sql";
 import fs from 'fs';
@@ -7,7 +15,6 @@ import axios from 'axios';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-// import SqlServerDeleter from '../../../cleanup/azure/delete_sql_server.js';
 import {
   AZURE_SQL_REGION,
   AZURE_SQL_PASSWORD,
@@ -15,13 +22,17 @@ import {
   AZURE_RESOURCE_GROUP_NAME
 } from '../../../common/azureLibs/constants.js';
 
+// Load environment variables
 await dotenv.config({ path: './.env' });
+
+// Initialize file paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const resultFilePath = path.resolve(__dirname, '../../../utils/test_data/sql_server_details.json');
 
 class AzureSqlManager {
   constructor() {
+    // Azure credentials and configuration
     this.subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
     this.resourceGroupName = AZURE_RESOURCE_GROUP_NAME;
     this.location = AZURE_SQL_REGION;
@@ -30,8 +41,12 @@ class AzureSqlManager {
     this.tenantId = process.env.AZURE_TENANT_ID;
     this.adminLogin = AZURE_SQL_USERNAME;
     this.adminPassword = AZURE_SQL_PASSWORD;
+
+    // Azure SDK clients and configuration
     this.credentials = new ClientSecretCredential(this.tenantId, this.clientId, this.clientSecret);
     this.client = new SqlManagementClient(this.credentials, this.subscriptionId);
+
+    // Connection configuration for SQL Server
     this.connectionConfig = {
       server: '', // Will be set after creating the SQL Server
       authentication: {
@@ -48,8 +63,6 @@ class AzureSqlManager {
         trustServerCertificate: true
       },
     };
-    // Initialize SqlServerDeleter instance
-    // this.sqlServerDeleter = new SqlServerDeleter();
   }
 
   async createSqlServer() {
@@ -58,6 +71,7 @@ class AzureSqlManager {
     const sqlServerDatabaseName = `${randomName}-database`;
     console.log("Creating SQL Server...");
 
+    // Define parameters for SQL Server creation
     const serverParameters = {
       location: this.location,
       administratorLogin: this.adminLogin,
@@ -65,9 +79,11 @@ class AzureSqlManager {
       version: '12.0'
     };
 
+    // Create SQL Server in Azure
     const serverResponse = await this.client.servers.beginCreateOrUpdateAndWait(this.resourceGroupName, sqlServerName, serverParameters);
     console.log("SQL Server created:", serverResponse);
 
+    // Set server name for connection configuration
     this.connectionConfig.server = `${sqlServerName}.database.windows.net`;
 
     return { serverName: sqlServerName, serverId: serverResponse.id, sqlServerDatabaseName };
@@ -76,6 +92,7 @@ class AzureSqlManager {
   async createSqlDatabase(serverName, sqlServerDatabaseName) {
     console.log("Creating SQL Database...");
 
+    // Define parameters for SQL Database creation
     const databaseParameters = {
       location: this.location,
       sku: {
@@ -86,9 +103,11 @@ class AzureSqlManager {
       maxSizeBytes: 1073741824
     };
 
+    // Create SQL Database in Azure
     const databaseResponse = await this.client.databases.beginCreateOrUpdateAndWait(this.resourceGroupName, serverName, sqlServerDatabaseName, databaseParameters);
     console.log("SQL Database created:", databaseResponse);
 
+    // Set database name for connection configuration
     this.connectionConfig.options.database = sqlServerDatabaseName;
 
     return { databaseName: sqlServerDatabaseName, databaseId: databaseResponse.id };
@@ -98,16 +117,19 @@ class AzureSqlManager {
     console.log("Creating Firewall Rule...");
 
     try {
+      // Get current IP address
       const response = await axios.get('https://api.ipify.org?format=json');
       const currentIpAddress = response.data.ip;
       console.log(`Current system IP address: ${currentIpAddress}`);
 
+      // Define parameters for Firewall Rule creation
       const firewallRuleName = "allow-current-ip";
       const firewallRuleParameters = {
         startIpAddress: currentIpAddress,
         endIpAddress: currentIpAddress
       };
 
+      // Create Firewall Rule in Azure
       const firewallRuleResponse = await this.client.firewallRules.createOrUpdate(this.resourceGroupName, serverName, firewallRuleName, firewallRuleParameters);
       console.log("Firewall Rule created:", firewallRuleResponse);
     } catch (err) {
@@ -131,9 +153,9 @@ class AzureSqlManager {
 
     connection.on('end', () => {
       console.log('Connection closed');
-      // this.performDeletion();
     });
 
+    // Initiate connection
     connection.connect((err) => {
       if (err) {
         console.error('Error connecting to Azure SQL Database:', err.message);
@@ -144,9 +166,11 @@ class AzureSqlManager {
 
   executeSqlScripts(connection) {
     try {
+      // Read SQL scripts from files
       const createTableSql = fs.readFileSync(path.resolve(__dirname, '../../../utils/test_data/scripts/create_table.sql'), 'utf8');
       const insertDataSql = fs.readFileSync(path.resolve(__dirname, '../../../utils/test_data/scripts/insert_data.sql'), 'utf8');
 
+      // Execute SQL scripts sequentially
       this.executeSqlFile(connection, createTableSql, (err) => {
         if (err) {
           console.error('Error executing create_table.sql:', err.message);
@@ -173,6 +197,7 @@ class AzureSqlManager {
   }
 
   executeSqlFile(connection, sqlQuery, callback) {
+    // Execute SQL query
     const request = new Request(sqlQuery, (err, rowCount, rows) => {
       if (err) {
         console.error('Error executing SQL query:', err.message);
@@ -187,27 +212,15 @@ class AzureSqlManager {
     connection.execSql(request);
   }
 
-  // async performDeletion() {
-  //   try {
-  //     // Read server name from JSON file
-  //     const jsonData = fs.readFileSync(resultFilePath, 'utf8');
-  //     const result = JSON.parse(jsonData);
-  //     const { sqlServerName } = result;
-
-  //     // Delete SQL Server using SqlServerDeleter instance
-  //     await this.sqlServerDeleter.deleteSqlServer(sqlServerName);
-  //   } catch (err) {
-  //     console.error('Error performing deletion:', err.message);
-  //   }
-  // }
-
   async main() {
     try {
+      // Main method to orchestrate SQL Server and Database creation
       const { serverName, serverId, sqlServerDatabaseName } = await this.createSqlServer();
       const { databaseName, databaseId } = await this.createSqlDatabase(serverName, sqlServerDatabaseName);
       await this.createFirewallRule(serverName);
       this.connectToDatabase();
 
+      // Construct result object with SQL Server and Database details
       const result = {
         sqlServerName: serverName,
         sqlServerId: serverId,
@@ -224,5 +237,6 @@ class AzureSqlManager {
   }
 }
 
+// Usage
 const manager = new AzureSqlManager();
 manager.main();

@@ -5,13 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "trigger_blob_scan": "mocha --no-deprecation api/test/unstructured_data_store/trigger_blob_container_scan.js",
-    "blob_scan": "mocha --no-deprecation api/test/unstructured_data_store/blob_backup.js",
-    "trigger_sql_server_scan": "mocha --no-deprecation api/test/structured_data_store/trigger_sql_server_scan.js",
-    "create_blob_container": "mocha --no-deprecation test/generator/azure/unstructred_data_store/blob_container.js",
-    "create_sql_server": "mocha --no-deprecation test/generator/azure/structured_data_store/sql_server.js",
-    "azure_e2e": "mocha --no-deprecation test/validator/azure/unstructured_data_store/test_azureblob_container_scheduler.js",
-    "blob_storage_test": "mocha --no-deprecation test/validator/azure/unstructured_data_store/test_azure_blob_container.js"
+    "create_blob_container": "mocha --no-deprecation test/generator/azure/unstructred_data_store/create_blob_container.js",
+    "create_sql_server": "mocha --no-deprecation test/generator/azure/structured_data_store/create_sql_server.js",    
+    "trigger_blob_scan": "mocha --no-deprecation api/test/unstructured_data_store/test_schedule_blob_container_scan.js",
+    "trigger_sql_server_scan": "mocha --no-deprecation api/test/structured_data_store/test_schedule_sql_server_scan.js",
+    "blob_storage_test": "mocha --no-deprecation test/validator/azure/unstructured_data_store/test_validate_azure_blob_container.js"
   },
   "keywords": [
     "test",

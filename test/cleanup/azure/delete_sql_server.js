@@ -1,58 +1,53 @@
-// const { ClientSecretCredential } = require("@azure/identity");
-// const { SqlManagementClient } = require("@azure/arm-sql");
+import { ClientSecretCredential } from '@azure/identity';
+import { SqlManagementClient } from '@azure/arm-sql';
+import { authenticateAzure } from '../../common/helper.js';
+import { AZURE_RESOURCE_GROUP_NAME, AZURE_SQL_REGION } from '../../common/azureLibs/constants.js';
+import { getJsonFile } from '../../../api/common/helper.js';
 
-// const {
-//   AZURE_SUBSCRIPTION_ID,
-//   AZURE_TENANT_ID,
-//   AZURE_SERVICE_PRINCIPAL_ID,
-//   AZURE_CLIENT_SECRET,
-//   AZURE_RESOURCE_GROUP_NAME
-// } = require('../../common/azureLibs/constants');
+class DeleteSQLServer {
+  constructor(filePath) {
+    // Initialize class properties
+    this.filePath = filePath;
+    this.subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
+    this.resourceGroupName = AZURE_RESOURCE_GROUP_NAME;
+    this.location = AZURE_SQL_REGION;    
+  }
 
-// class SqlServerDeleter {
-//   constructor() {
-//     this.subscriptionId = AZURE_SUBSCRIPTION_ID;
-//     this.resourceGroupName = AZURE_RESOURCE_GROUP_NAME;
-//     this.clientId = AZURE_SERVICE_PRINCIPAL_ID;
-//     this.clientSecret = AZURE_CLIENT_SECRET;
-//     this.tenantId = AZURE_TENANT_ID;
-//     this.credentials = new ClientSecretCredential(this.tenantId, this.clientId, this.clientSecret);
-//     this.client = new SqlManagementClient(this.credentials, this.subscriptionId);
-//   }
+  async init() {
+    // Initialize Azure credentials and SQL management client
+    const credentials = new ClientSecretCredential(process.env.AZURE_TENANT_ID, process.env.AZURE_SERVICE_PRINCIPAL_ID, process.env.AZURE_CLIENT_SECRET);
+    this.sqlServerManagementClient = new SqlManagementClient(credentials, this.subscriptionId);
+    await this.authenticate();
+  }
 
-//   async deleteSqlServer(serverName) {
-//     try {
-//       console.log(`Deleting SQL Server ${serverName}...`);
-//       await this.client.servers.beginDelete(this.resourceGroupName, serverName);
-//       console.log(`SQL Server ${serverName} deleted successfully.`);
-//     } catch (err) {
-//       console.error(`Error deleting SQL Server ${serverName}:`, err.message);
-//     }
-//   }
-// }
+  async authenticate() {
+    // Authenticate with Azure
+    try {
+      this.credentials = await authenticateAzure();
+    } catch (error) {
+      console.error('Failed to authenticate Azure:', error);
+      throw error;
+    }
+  }
 
-// module.exports = SqlServerDeleter;
+  async deleteSQLServer() {
+    // Delete the SQL Server
+    try {
+      await this.init(); // Initialize credentials and client
 
+      // Load the JSON file containing SQL Server details
+      const resource = await getJsonFile(this.filePath);
+      const sqlServerName = resource.sqlServerName;
 
-const { StorageManagementClient } = require('@azure/arm-storage');
-const fs = require('fs');
-const path = require('path');
-const { AZURE_SUBSCRIPTION_ID, AZURE_RESOURCE_GROUP_NAME } = require('../../common/azureLibs/constants');
-const { authenticateAzure } = require('../../common/helper/authenticateAzure');
-
-// Function to delete a storage account
-async function deleteStorageAccount(filePath) {
-    // Load the JSON file
-    const rawData = fs.readFileSync(filePath);
-    const details = JSON.parse(rawData);
-
-    const subscriptionId = AZURE_SUBSCRIPTION_ID;
-    const resourceGroupName = AZURE_RESOURCE_GROUP_NAME;
-    const storageAccountName = details.storageAccountName;
-
-    const credentials = await authenticateAzure();
-    const storageManagementClient = new StorageManagementClient(credentials, subscriptionId);
-    await storageManagementClient.storageAccounts.delete(resourceGroupName, storageAccountName);
+      // Delete the SQL Server
+      await this.sqlServerManagementClient.servers.beginDelete(this.resourceGroupName, sqlServerName);
+      console.log(`Successfully deleted SQL Server ${sqlServerName}`);
+    } catch (error) {
+      console.error('Failed to delete SQL Server:', error.message);
+      throw error;
+    }
+  }
 }
 
-module.exports = { deleteStorageAccount };
+// Export the class for use in other modules
+export { DeleteSQLServer };
