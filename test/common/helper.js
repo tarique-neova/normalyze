@@ -109,7 +109,7 @@ export async function extractZipFile(zipFileBuffer, dir) {
 }
 
 /**
- * Reads a CSV file and returns its contents
+ * Reads a Input CSV file and returns its contents
  * @param {string} filePath
  * @returns {Promise<object[]>}
  */
@@ -198,7 +198,7 @@ const extractProfilesFromSnippet = (jsonData) => {
 };
 
 /**
- * Validates JSON and CSV data
+ * Validates expected JSON and actual input test data
  * @param {string} jsonFilePath
  * @param {string} testDataFilePath
  * @param {string} expectedProfileName
@@ -488,53 +488,3 @@ const mapActualAndExpectedEntities = (entityName) => {
       return null;
   }
 };
-
-// Main function to compare and log mismatches
-
-// export const verifyAgainstJson = async (testDataFilePath, jsonFilePath, entityName) => {
-//   try {
-//     const entities = await readJsonFileForEntities(jsonFilePath); // Read JSON file and extract entities
-//     const entityValues = entities[entityName]; // Extract specific entity values
-
-//     if (!entityValues) {
-//       throw new Error(`Entity '${entityName}' does not exist in snippet`); // Throw error if entity is not found
-//     }
-
-//     // Determine CSV column name based on entity type
-//     const csvColumnName = entityName === 'PERSON'? 'Name' :
-//       entityName === 'CREDIT_CARD_NUMBER'? 'Credit Card Number' :
-//         entityName === 'BANK_ACCOUNT_NUMBER'? 'Bank Account Number' :
-//           entityName === 'EMAIL_ADDRESS'? 'Email Address' :
-//             entityName === 'US_SSN'? 'SSN Number' :
-//               entityName === 'COUNTRY'? 'Country Name' : '';
-
-//     if (!csvColumnName) {
-//       throw new Error(`CSV column name not defined for entity ${entityName}`);
-//     }
-
-//     const csvData = await readTestDataAndExtractActualEntity(testDataFilePath, csvColumnName); // Read CSV and extract column values
-
-//     // Compare CSV data against JSON entity values
-//     let mismatches;
-//     if (entityValues.length === 0) {
-//       mismatches = csvData;
-//     } else {
-//       mismatches = csvData.filter(csvValue =>!entityValues.includes(csvValue));
-//     }
-
-//     try {
-//       assert.strictEqual(mismatches.length, 0, `Verification failed for ${entityName}: ${mismatches.join(', ')}`);
-//     } catch (error) {
-//       console.error(error.message);
-//       throw error;
-//     }
-
-//     // Output verification result (optional)
-//     console.log(`All ${entityName} values verified successfully against JSON entities.`);
-
-//     return true; // Return true to indicate successful verification
-//   } catch (error) {
-//     console.error('Error:', error.message);
-//     return false; // Return false to indicate failure
-//   }
-// };
