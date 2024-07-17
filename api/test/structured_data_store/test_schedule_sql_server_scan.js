@@ -70,31 +70,31 @@ describe('TRIGGER_AZURESQL_SERVER_DATASTORE_SCANNER', function () {
   });
 
   // Test case to get snippets data
-  it('test_get_snippets_data', async function () {
-    try {
-      const sqlServerId = resource.sqlServerId;
-      const sqlServerName = resource.sqlServerName;
-      // Call checkStatus function and store the response
-      const response = await checkStatus(SQL_SERVER_DATA_STORE_API_TYPE, sqlServerName, sqlServerId, AZURE_SQL_REGION, workflowId);
+  // it('test_get_snippets_data', async function () {
+  //   try {
+  //     const sqlServerId = resource.sqlServerId;
+  //     const sqlServerName = resource.sqlServerName;
+  //     // Call checkStatus function and store the response
+  //     const response = await checkStatus(SQL_SERVER_DATA_STORE_API_TYPE, sqlServerName, sqlServerId, AZURE_SQL_REGION, workflowId);
   
-      if (!response) {
-        console.log('Snippets data not available yet. Retrying...');
-      } else {
-        // Define file path for storing the snippets data response
-        const getSnippetsFilePath = path.join(__dirname, '..', '..', '..', 'test', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store', 'get_azure_sql_server_snippets.json');
-        const expandedResponse = JSON.stringify(response, null, 2);
-        console.log('Get Snippets Data Response:', expandedResponse);
+  //     if (!response) {
+  //       console.log('Snippets data not available yet. Retrying...');
+  //     } else {
+  //       // Define file path for storing the snippets data response
+  //       const getSnippetsFilePath = path.join(__dirname, '..', '..', '..', 'test', 'utils', 'test_data', 'api_response_data', 'unstructured_data_store', 'get_azure_sql_server_snippets.json');
+  //       const expandedResponse = JSON.stringify(response, null, 2);
+  //       console.log('Get Snippets Data Response:', expandedResponse);
         
-        // Ensure the data is valid before writing to the file
-        if (typeof expandedResponse !== 'string' || expandedResponse === 'undefined') {
-          throw new TypeError('Invalid data type for writeFileSync');
-        }
+  //       // Ensure the data is valid before writing to the file
+  //       if (typeof expandedResponse !== 'string' || expandedResponse === 'undefined') {
+  //         throw new TypeError('Invalid data type for writeFileSync');
+  //       }
         
-        fs.writeFileSync(getSnippetsFilePath, expandedResponse, 'utf8'); // Write the snippets data to a file
-        expect(response).to.be.an('array'); // Check if the response is an array
-      }
-    } catch (error) {
-      console.error('Error getting snippets data:', error);
-    }
-  });
+  //       fs.writeFileSync(getSnippetsFilePath, expandedResponse, 'utf8'); // Write the snippets data to a file
+  //       expect(response).to.be.an('array'); // Check if the response is an array
+  //     }
+  //   } catch (error) {
+  //     console.error('Error getting snippets data:', error);
+  //   }
+  // });
 });

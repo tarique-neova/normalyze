@@ -246,6 +246,7 @@ export async function validateProfileData(jsonFilePath, testDataFilePath, expect
 
       try {
         assert.strictEqual(missingData.length, 0, `Missing ${actualProfileName} entries in JSON output for profile ${expectedProfileName}: ${missingData.join(', ')}`);
+        console.error(`Missing ${actualProfileName} entries in JSON output for profile ${expectedProfileName}: ${missingData.join(', ')}`)
       } catch (error) {
         console.error(error.message);
         failedAssertions++;
